@@ -1,0 +1,100 @@
+<template>
+  <div>
+    <loading :isLoading="view.isLoading" />
+    <master v-if="this.view.show && this.isMaster" :user="this.user" />
+    <login v-if="this.view.show && this.isLogin" />
+    <sign-up v-if="this.view.show && this.isSignUp" />
+  </div>
+</template>
+
+<script>
+import ControllerFactory from '@/lib/controllers/ControllerFactory'
+import Loading from '@/components/common/ui/Loading'
+import Master from '@/components/Master'
+import Login from '@/components/Login'
+import SignUp from '@/components/SignUp'
+import EventBus from '@/lib/EventBus'
+import Thread from '@/lib/Thread'
+
+export default {
+  name: 'App',
+  components: {
+    Master,
+    Login,
+    SignUp,
+    Loading
+  },
+
+  data () {
+    const userController = ControllerFactory.getController('user', this)
+
+    return {
+      user: userController.getCurrentUser(),
+      isLoggedOn: false,
+      view: {
+        show: false,
+        isLoading: true
+      }
+    }
+  },
+
+  computed: {
+    isLogin () {
+      return this.$route.path === '/login' || this.$route.path === '/logout' || !this.isLoggedOn
+    },
+
+    isSignUp () {
+      return this.$route.path === '/signup'
+    },
+
+    isMaster () {
+      return !this.isLogin && !this.isSignUp
+    }
+  },
+
+  mounted () {
+    var self = this
+
+    this.thread = new Thread('checkUser', 60 * 1000, () => {
+      self.checkUser()
+    })
+    this.thread.start()
+
+    self.checkUser()
+      .then(() => {
+        self.view.show = true
+        self.view.isLoading = false
+      })
+
+    EventBus.$on('new-user', user => {
+      self.user = user
+      self.isLoggedOn = user != null
+    })
+
+    EventBus.$on('loading', isLoading => {
+      self.view.isLoading = isLoading
+    })
+  },
+
+  methods: {
+    checkUser () {
+      const self = this
+      const userController = ControllerFactory.getController('user', this)
+
+      return userController.getCurrentUserFromServer()
+        .then(user => {
+          self.isLoggedOn = user != null
+          self.user = user
+
+          if (!user) {
+            userController.logout()
+          }
+        })
+    }
+  },
+
+  destroy () {
+    this.thread.stop()
+  }
+}
+</script>
