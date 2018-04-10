@@ -8,7 +8,7 @@ class TransactionController {
     this.resourceHelper = dependencies.resourceHelper
   }
 
-  getTransactions (address) {
+  getTransactions (address, pagination, sort) {
     var self = this
     return new Promise((resolve, reject) => {
       logger.info(`Getting the transactions ${address}`)
@@ -19,6 +19,16 @@ class TransactionController {
         endpoint = `/api/v1/addresses/${address}/transactions`
       } else {
         endpoint = '/api/v1/transactions'
+      }
+
+      endpoint += '?'
+
+      if (sort) {
+        endpoint += `&sort=${sort}`
+      }
+
+      if (pagination) {
+        endpoint += `&offset=${pagination.offset}&limit=${pagination.limit}`
       }
 
       self.resourceHelper.get(endpoint)
@@ -34,6 +44,15 @@ class TransactionController {
       logger.debug(transaction)
 
       self.resourceHelper.post('/api/v1/transactions', transaction)
+        .then(resolve)
+        .catch(reject)
+    })
+  }
+
+  getTransactionById (id) {
+    var self = this
+    return new Promise((resolve, reject) => {
+      self.resourceHelper.get(`/api/v1/transactions/${id}`)
         .then(resolve)
         .catch(reject)
     })

@@ -1,12 +1,12 @@
 <template>
-  <page title="Dashboard 01">
+  <page title="My Wallet">
     <div class="card card-dash-one mg-t-20">
       <div class="row no-gutters">
         <div class="col-lg-3">
           <i class="icon ion-shuffle"></i>
           <div class="dash-content">
             <label class="tx-primary">Balance</label>
-            <h2><amount :value="this.view.dashboard.balance.total" /></h2>
+            <h2 ><amount :value="this.view.dashboard.balance.total" /></h2>
           </div><!-- dash-content -->
         </div><!-- col-3 -->
         <div class="col-lg-3">
@@ -46,41 +46,13 @@
 
     <div class="row row-sm mg-t-20">
       <div class="col-lg-12 mg-t-20 mg-lg-t-0">
-        <div class="card card-table">
-          <div class="card-header">
-            <h6 class="slim-card-title">Transaction History</h6>
+        <transactions-card :transactions="this.view.dashboard.transactions">
+          <div class="card-footer tx-12 pd-y-15 bg-transparent"
+            v-if="this.view.dashboard.transactions.totalCount > 10">
+            <router-link v-if="selectedAddress" :to="'/addresses/' + selectedAddress + '/transactions'"><i class="fa fa-angle-down mg-r-5"></i>View All Transaction History</router-link>
+            <router-link v-if="!selectedAddress" :to="'/addresses/transactions'"><i class="fa fa-angle-down mg-r-5"></i>View All Transaction History</router-link>
           </div>
-          <div class="table-responsive">
-            <table class="table mg-b-0 tx-13">
-              <thead>
-                <tr class="tx-10">
-                  <th>Address</th>
-                  <th width="20%">Amount</th>
-                  <th width="20%">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="transaction in this.view.dashboard.transactions" :key="transaction.id">
-                  <td>
-                    <a href="#" class="tx-inverse tx-14 tx-medium d-block"><address-box :address="transaction.from" /></a>
-                  </td>
-                  <td>
-                    <span v-if="transaction.amount < 0" class="tx-danger"><i class="icon ion-android-arrow-down mg-r-5"></i><amount :value="transaction.amount" /></span>
-                    <span v-if="transaction.amount >= 0" class="tx-success"><i class="icon ion-android-arrow-up mg-r-5"></i><amount :value="transaction.amount" /></span>
-
-                    <span class="tx-11 d-block" v-if="transaction.status === 2"><span class="square-8 bg-info mg-r-5 rounded-circle"></span>Confirmed</span>
-                    <span class="tx-11 d-block" v-if="transaction.status !== 2"><span class="square-8 bg-warning mg-r-5 rounded-circle"></span>Waiting confirmation</span>
-                  </td>
-                  <td>{{transaction.createdAt | moment-from}}
-                  <span class="tx-11 d-block">{{transaction.createdAt | moment-formatted}}</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="card-footer tx-12 pd-y-15 bg-transparent">
-            <a href="#"><i class="fa fa-angle-down mg-r-5"></i>View All Transaction History</a>
-          </div>
-        </div>
+        </transactions-card>
       </div>
     </div>
   </page>
@@ -89,8 +61,8 @@
 <script>
 import Page from '@/components/common/page/Page'
 import Amount from '@/components/common/ui/Amount'
-import AddressBox from '@/components/common/ui/AddressBox'
 import AddressesBox from '@/components/pages/home/AddressesBox'
+import TransactionsCard from '@/components/pages/transactions/TransactionsCard'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 
 export default {
@@ -98,7 +70,7 @@ export default {
     Page,
     AddressesBox,
     Amount,
-    AddressBox
+    TransactionsCard
   },
 
   data () {
@@ -163,7 +135,7 @@ export default {
             return addressController.removeAddress(address)
           })
           .then(r => {
-            self.selectedAddress = null
+            self.selectedAddress = ''
             return self.changeAddress()
           })
           .then(resolve)
@@ -184,6 +156,12 @@ export default {
           })
           .then(r => {
             self.view.dashboard = r
+
+            if (address) {
+              self.selectedAddress = address
+            } else {
+              self.selectedAddress = ''
+            }
             return r
           })
           .then(resolve)
@@ -193,3 +171,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.dash-content h2 {
+   max-width: 170px;
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
+</style>

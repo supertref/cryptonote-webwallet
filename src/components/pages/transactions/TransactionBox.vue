@@ -2,8 +2,17 @@
   <div class="section-wrapper">
     <simplert :useIcon="true" ref="simplert" />
 
-    <label class="section-title">New Transaction</label>
-    <p class="mg-b-20 mg-sm-b-40">Use this form to send money to another address.</p>
+    <div class="row">
+      <div class="col-lg-8">
+        <label class="section-title">New Transaction</label>
+        <p class="mg-b-20 mg-sm-b-40">Use this form to send money to another address.</p>
+      </div>
+      <div class="col-lg-4">
+        <div class="">
+
+        </div>
+      </div>
+    </div>
 
     <div class="form-layout">
       <div class="row mg-b-25">
@@ -22,6 +31,11 @@
                   <div class="input-group-text">BCN</div>
               </div>
             </div>
+            <div>
+              <label class="tx-primary" style="padding-right: 10px" title="Total"><i class="icon ion-shuffle"></i> <amount :value="this.address.balance.total" /></label>
+              <label class="tx-danger" title="Locked"><i class="fa fa-lock"></i> <amount :value="this.address.balance.locked" /></label>
+            </div>
+
           </div>
         </div>
         <div class="col-lg-8">
@@ -43,7 +57,7 @@
         </div>
         <div class="col-lg-8">
           <div class="form-group mg-b-10-force">
-            <label class="form-control-label">Payment ID: <span class="tx-danger">*</span></label>
+            <label class="form-control-label">Payment Id: <span class="tx-danger">*</span></label>
             <div class="input-group">
               <input maxlength="32" class="form-control" type="text" name="paymentId" v-model="transaction.extra.fakePaymentId" placeholder="Payment ID">
               <div class="input-group-append">
@@ -102,8 +116,13 @@
 import uuidv1 from 'uuid/v1'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import MessageBox from '@/lib/ui/MessageBox'
+import Amount from '@/components/common/ui/Amount'
 
 export default {
+  components: {
+    Amount
+  },
+
   data () {
     return {
       transaction: {
@@ -118,6 +137,12 @@ export default {
           anonymity: 3,
           fakePaymentId: '',
           paymentId: ''
+        }
+      },
+      address: {
+        balance: {
+          available: 0,
+          locked: 0
         }
       }
     }
@@ -138,6 +163,10 @@ export default {
     paymentIdHex (val) {
       this.transaction.extra.paymentId = val
     }
+  },
+
+  mounted () {
+    this.loadAddress()
   },
 
   methods: {
@@ -162,6 +191,16 @@ export default {
         })
         .catch(error => {
           alert(error)
+        })
+    },
+
+    loadAddress () {
+      const addressController = ControllerFactory.getController('address', this)
+      const self = this
+
+      addressController.getBalance(this.transaction.from)
+        .then(balance => {
+          self.address.balance = balance
         })
     }
   }

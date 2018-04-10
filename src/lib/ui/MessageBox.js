@@ -41,11 +41,11 @@ class MessageBox {
 
   showCriticalError (error, onClose) {
     console.log(error)
-    this.showError('OMG!!!', 'Algo muito estranho está acontecendo com nossos servidores! Tente novamente mais tarde', onClose)
+    this.showError('OMG!!!', 'Somthing worong with our servers is goind on! Try again later', onClose)
   }
 
   showRequiredFieldsMessage () {
-    this.showError('Campos não preenchidos!', 'Todos os campos destacados com * precisam ser preenchidos!')
+    this.showError('Required fields!', 'All fields marked with * are required!')
   }
 
   confirm (title, message, fnCallback) {

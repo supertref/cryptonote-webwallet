@@ -2,7 +2,7 @@
   <div class="card">
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="card-body">
-      <h6 class="slim-card-title mg-b-15">Addresses</h6>
+      <h6 class="slim-card-title mg-b-15">Your Addresses</h6>
       <div class="card-text mg-b-15">
         <div class="dropdown dropdown-demo">
           <a href="#" class="dd-link" data-toggle="dropdown">
@@ -15,8 +15,8 @@
           </a>
           <div class="dropdown-menu pd-5">
             <nav class="nav dropdown-nav">
-              <a href="#" @click="changeAddress()" class="nav-link" v-show="selectedAddress"><i class="icon ion-ios-pricetags-outline mg-r-10"></i> All addresses</a>
-              <a href="#" @click="changeAddress(item.address)" class="nav-link" v-for="item in addresses" :key="item.id">
+              <a href="javascript:void(0)" @click="changeAddress()" class="nav-link" v-show="selectedAddress"><i class="icon ion-ios-pricetags-outline mg-r-10"></i> All addresses</a>
+              <a href="javascript:void(0)" @click="changeAddress(item.address)" class="nav-link" v-for="item in addresses" :key="item.id">
                 <i class="icon ion-ios-pricetags-outline mg-r-10" v-show="selectedAddress !== item.address"></i>
                 <i class="icon ion-ios-pricetags mg-r-10" v-show="selectedAddress === item.address"></i>
                 {{item.address}}
@@ -26,15 +26,15 @@
           </div>
         </div>
       </div>
-      <a href="#" @click="createAddress()" class="card-link"><i class="fa fa-plus" /> Create address</a>
+      <a href="javascript:void(0)" @click="createAddress()" class="card-link"><i class="fa fa-plus" /> Create address</a>
       <transition name="fade">
-          <a href="#" @click="copyAddress(selectedAddress)" class="card-link" v-show="selectedAddress && this.view.copied"><i class="fa fa-copy" /> Copy Address</a>
+          <a href="javascript:void(0)" @click="copyAddress(selectedAddress)" class="card-link" v-show="selectedAddress && this.view.copied"><i class="fa fa-copy" /> Copy Address</a>
       </transition>
       <transition name="fade">
-        <router-link :to="'/addresses/' + selectedAddress + '/transactions'" class="card-link" v-show="selectedAddress"><i class="fa fa-send" /> Send money</router-link>
+        <router-link :to="'/addresses/' + selectedAddress + '/transactions/new'" class="card-link" v-show="selectedAddress"><i class="fa fa-send" /> Send money</router-link>
       </transition>
       <transition name="fade">
-        <a href="#" @click="removeAddress(selectedAddress)" class="card-link tx-danger" v-show="selectedAddress"><i class="fa fa-minus" /> Remove address</a>
+        <a href="javascript:void(0)" @click="removeAddress(selectedAddress)" class="card-link tx-danger" v-show="selectedAddress"><i class="fa fa-minus" /> Remove address</a>
       </transition>
     </div>
   </div>

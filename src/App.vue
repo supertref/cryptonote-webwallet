@@ -30,7 +30,7 @@ export default {
 
     return {
       user: userController.getCurrentUser(),
-      isLoggedOn: false,
+      isLoggedOn: userController.getCurrentUser() != null,
       view: {
         show: false,
         isLoading: true
@@ -40,7 +40,7 @@ export default {
 
   computed: {
     isLogin () {
-      return this.$route.path === '/login' || this.$route.path === '/logout' || !this.isLoggedOn
+      return this.$route.path === '/login' || (this.$route.path !== '/signup' && !this.isLoggedOn)
     },
 
     isSignUp () {
@@ -58,10 +58,10 @@ export default {
     this.thread = new Thread('checkUser', 60 * 1000, () => {
       self.checkUser()
     })
-    this.thread.start()
 
     self.checkUser()
       .then(() => {
+        self.thread.start()
         self.view.show = true
         self.view.isLoading = false
       })
@@ -78,18 +78,25 @@ export default {
 
   methods: {
     checkUser () {
-      const self = this
-      const userController = ControllerFactory.getController('user', this)
+      if (this.isLoggedOn) {
+        const self = this
+        const userController = ControllerFactory.getController('user', this)
 
-      return userController.getCurrentUserFromServer()
-        .then(user => {
-          self.isLoggedOn = user != null
-          self.user = user
+        return userController.getCurrentUserFromServer()
+          .then(user => {
+            self.isLoggedOn = user != null
+            self.user = user
 
-          if (!user) {
+            if (!user) {
+              userController.logout()
+            }
+          })
+          .catch(() => {
             userController.logout()
-          }
-        })
+          })
+      } else {
+        return Promise.resolve()
+      }
     }
   },
 

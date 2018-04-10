@@ -43,6 +43,7 @@ class ResourceHelper {
           if (!supressLoading) {
             EventBus.$emit('loading', false)
           }
+          res.body.totalCount = res.headers.get('X-Total-Count')
           resolve(res.body)
         })
         .catch(e => {

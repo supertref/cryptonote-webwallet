@@ -52,7 +52,7 @@ class UserController {
 
       chain
         .then(() => {
-          return this.resourceHelper.get('/api/v1/users/me', true)
+          return self.resourceHelper.get('/api/v1/users/me', true)
         })
         .then(user => {
           rUser = user
@@ -111,6 +111,7 @@ class UserController {
 
   registerUserFromResponse (user) {
     // sending to the app the new user
+    localStorage.setItem('currentUserToken', user.token)
     EventBus.$emit('new-user', user)
 
     return user

@@ -2,7 +2,7 @@
   <div class="signin-wrapper">
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="signin-box">
-      <h2 class="slim-logo"><a href="index.html">slim<span>.</span></a></h2>
+      <h2 class="slim-logo"><a href="/">webwallet<span></span></a></h2>
       <h2 class="signin-title-primary">Welcome back!</h2>
       <h3 class="signin-title-secondary">Sign in to continue.</h3>
 
@@ -78,7 +78,7 @@ export default {
             console.log(error)
             switch (error.status) {
               case 404:
-                messageBox.showError('Login inválido!', 'Não foi possível acessar a plataforma com as credenciais informadas.')
+                messageBox.showError('Invalid credentials!', 'Please inform a valid email and password to sign in.')
                 break
               default:
                 messageBox.showCriticalError()

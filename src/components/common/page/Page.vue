@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
-    <page-header :title="title" />
+    <page-header :title="title" :subTitle="subTitle" />
     <page-content>
       <slot></slot>
     </page-content>
@@ -13,7 +13,7 @@ import PageHeader from './Header'
 import PageContent from './Content'
 
 export default {
-  props: ['title', 'subItems'],
+  props: ['title', 'subTitle'],
   components: {
     PageHeader,
     PageContent

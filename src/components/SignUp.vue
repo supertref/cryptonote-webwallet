@@ -2,7 +2,7 @@
   <div class="signin-wrapper">
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="signin-box signup">
-      <h2 class="slim-logo"><a href="index.html">slim<span>.</span></a></h2>
+      <h2 class="slim-logo"><a href="/">webwallet<span></span></a></h2>
       <h3 class="signin-title-primary">Get Started!</h3>
       <h5 class="signin-title-secondary lh-4">It's free to signup and only takes a minute.</h5>
       <div class="row row-xs mg-b-10">

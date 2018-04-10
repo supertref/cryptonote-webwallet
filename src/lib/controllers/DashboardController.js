@@ -29,7 +29,7 @@ class DashboardController {
         })
         .then(function (r) {
           dashboard.addresses = r
-          return self.transactionController.getTransactions(address)
+          return self.transactionController.getTransactions(address, {limit: 10, offset: 0}, '-createdAt')
         })
         .then(function (r) {
           dashboard.transactions = r

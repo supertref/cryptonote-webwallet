@@ -29,7 +29,7 @@ Vue.use(VueCurrencyFilter, {
 
 Vue.use(money, {
   decimal: '.',
-  thousands: '.',
+  thousands: ',',
   prefix: '',
   suffix: '',
   precision: 8,
@@ -38,7 +38,7 @@ Vue.use(money, {
 
 Vue.filter('moment-from', function (value) {
   if (!value) return ''
-  return moment(value).startOf('hour').fromNow()
+  return moment(value).fromNow()
 })
 
 Vue.filter('moment-formatted', function (value) {
