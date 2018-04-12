@@ -1,8 +1,8 @@
 <template>
-  <page title="Transactions" :subTitle="this.view.address">
+  <page title="Contacts">
     <div class="row row-sm mg-t-20">
       <div class="col-lg-12 mg-t-20 mg-lg-t-0">
-        <transactions-card :transactions="this.transactions">
+        <contacts-card :contacts="this.contacts" @reload="loadContacts()">
           <div class="pagination-wrapper">
             <nav aria-label="Page navigation">
               <ul class="pagination mg-b-0">
@@ -10,14 +10,14 @@
               </ul>
             </nav>
           </div>
-        </transactions-card>
+        </contacts-card>
       </div>
     </div>
   </page>
 </template>
 
 <script>
-import TransactionsCard from '@/components/pages/transactions/TransactionsCard'
+import ContactsCard from '@/components/pages/contacts/ContactsCard'
 import Page from '@/components/common/page/Page'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 
@@ -25,33 +25,31 @@ export default {
   data () {
     return {
       view: {
-        address: this.$route.params.address ? this.$route.params.address.substring(0, 15) + '...' + this.$route.params.address.substring(this.$route.params.address.length - 15, this.$route.params.address.length) : '',
         pages: [],
-        currentPage: parseInt(this.$route.query.page ? this.$route.query.page : 1)
+        currentPage: this.$route.query.page ? this.$route.query.page : 1
       },
-      address: this.$route.params.address,
-      transactions: []
+      contacts: []
     }
   },
 
   components: {
-    TransactionsCard,
+    ContactsCard,
     Page
   },
 
   mounted () {
-    this.loadTransactions()
+    this.loadContacts()
   },
 
   methods: {
     changePage (page) {
       this.view.currentPage = page
       this.$router.push({query: {page: page}})
-      this.loadTransactions()
+      this.loadContacts()
     },
 
-    loadTransactions () {
-      const transactionController = ControllerFactory.getController('transaction')
+    loadContacts () {
+      const contactController = ControllerFactory.getController('contact')
       const self = this
 
       const pagination = {
@@ -59,11 +57,10 @@ export default {
         limit: 10
       }
 
-      transactionController.getTransactions(this.address, pagination)
-        .then(transactions => {
-          self.transactions = transactions
-          const p = Math.ceil(transactions.totalCount / 10)
-
+      contactController.getContacts(pagination)
+        .then(contacts => {
+          self.contacts = contacts
+          const p = Math.ceil(contacts.totalCount / 10)
           self.view.pages = []
           for (let i = 1; i <= p; i++) {
             self.view.pages.push(i)

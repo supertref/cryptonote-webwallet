@@ -3,7 +3,7 @@
   <div class="slim-header">
     <div class="container">
       <div class="slim-header-left">
-        <h2 class="slim-logo"><router-link to="/">webwallet<span></span></router-link></h2>
+        <h3 class="slim-logo"><router-link to="/"><img src="/static/img/logo-nbr.png" style="width: 5%" /> nbr<span></span></router-link></h3>
       </div><!-- slim-header-left -->
       <div class="slim-header-right">
         <div class="dropdown dropdown-b">

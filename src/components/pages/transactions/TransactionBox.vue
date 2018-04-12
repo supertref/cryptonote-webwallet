@@ -1,6 +1,7 @@
 <template>
   <div class="section-wrapper">
     <simplert :useIcon="true" ref="simplert" />
+    <contacts-list-modal id="modal" @selected="contactSelected" />
 
     <div class="row">
       <div class="col-lg-8">
@@ -28,20 +29,24 @@
             <div class="input-group">
               <money class="form-control" name="amount" id="amount" v-model="transaction.to.fakeAmount" placeholder=""></money>
               <div class="input-group-append">
-                  <div class="input-group-text">BCN</div>
+                  <div class="input-group-text">{{view.config.symbol}}</div>
               </div>
             </div>
             <div>
-              <label class="tx-primary" style="padding-right: 10px" title="Total"><i class="icon ion-shuffle"></i> <amount :value="this.address.balance.total" /></label>
+              <label class="tx-primary" style="padding-right: 10px" title="Total"><i class="fa fa-money"></i> <amount :value="this.address.balance.available" /></label>
               <label class="tx-danger" title="Locked"><i class="fa fa-lock"></i> <amount :value="this.address.balance.locked" /></label>
             </div>
-
           </div>
         </div>
         <div class="col-lg-8">
           <div class="form-group mg-b-10-force">
             <label class="form-control-label">To: <span class="tx-danger">*</span></label>
-            <input class="form-control" type="text" name="address" v-model="transaction.to.address" placeholder="To address">
+            <div class="input-group">
+              <input class="form-control" type="text" name="address" v-model="transaction.to.address" placeholder="To address">
+              <div class="input-group-append">
+                  <div class="input-group-text"><a href="#modal" class="modal-effect btn btn-link btn-sm" data-toggle="modal" data-effect="effect-flip-vertical" style="padding: 0px"><i class="fa fa-search" /></a></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-lg-4">
@@ -50,7 +55,7 @@
             <div class="input-group">
               <money class="form-control" name="fee" id="fee" v-model="transaction.fakeFee" placeholder=""></money>
               <div class="input-group-append">
-              <div class="input-group-text">BCN</div>
+              <div class="input-group-text">{{view.config.symbol}}</div>
               </div>
             </div>
           </div>
@@ -117,17 +122,23 @@ import uuidv1 from 'uuid/v1'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import MessageBox from '@/lib/ui/MessageBox'
 import Amount from '@/components/common/ui/Amount'
+import Config from '@/Config'
+import ContactsListModal from '@/components/pages/contacts/ContactsListModal'
 
 export default {
   components: {
-    Amount
+    Amount,
+    ContactsListModal
   },
 
   data () {
     return {
+      view: {
+        config: Config
+      },
       transaction: {
         from: this.$route.params.address,
-        fakeFee: 0.01,
+        fakeFee: Config.minimumFee / Config.defaultUnit,
         to: {
           address: '',
           amount: 0,
@@ -179,18 +190,44 @@ export default {
       const messageBox = new MessageBox(this)
       const self = this
 
-      this.transaction.to.amount = this.transaction.to.fakeAmount * 100000000
-      this.transaction.fee = this.transaction.fakeFee * 100000000
-      this.transaction.changeAddress = this.transaction.from
+      const newTransaction = JSON.parse(JSON.stringify(this.transaction))
 
-      transactionController.createTransaction(this.transaction)
+      newTransaction.to.amount = this.transaction.to.fakeAmount * 100000000
+      newTransaction.fee = this.transaction.fakeFee * 100000000
+      newTransaction.changeAddress = this.transaction.from
+
+      delete newTransaction.fakeFee
+      delete newTransaction.to.fakeAmount
+      delete newTransaction.extra.fakePaymentId
+
+      transactionController.createTransaction(newTransaction)
         .then(() => {
           messageBox.showInfo('New Transaction', 'The transaction has been sent successfully', () => {
             self.$router.push('/dashboard/addresses/' + this.$route.params.address)
           })
         })
         .catch(error => {
-          alert(error)
+          switch (error.error) {
+            case 'ERROR_TRANSACTION_BAD_ADDRESS':
+              messageBox.showError('Bad Address :(', 'The address field has an invalid value, please check if the address is correct and try again!')
+              break
+            case 'ERROR_TRANSACTION_WRONG_AMOUNT':
+              messageBox.showError('Wrong amount :(', 'The amount of transaction is invalid, please check if you have founds and try again!')
+              break
+            case 'ERROR_TRANSACTION_SMALL_FEE':
+              messageBox.showError('Small fee :(', 'The fee of transaction is too small, please set a fee to at least ' + Config.minimumFee / Config.defaultUnit)
+              break
+            default:
+              switch (error.status) {
+                case 422:
+                  messageBox.showError('Problems :(', 'There is something wrong with you transaction, check if is everything ok and try again or send a message to our support!')
+                  break
+                default:
+                  messageBox.showError('Problems :(', 'An unexpected error has occurred, please try again later or send a message to our support!')
+                  break
+              }
+              break
+          }
         })
     },
 
@@ -202,6 +239,14 @@ export default {
         .then(balance => {
           self.address.balance = balance
         })
+    },
+
+    contactSelected (contact) {
+      this.transaction.to.address = contact.address
+      this.transaction.extra.anonymity = contact.extra.anonymity
+      this.transaction.extra.paymentId = contact.extra.paymentId
+      this.transaction.to.fakeAmount = contact.amount
+      this.transaction.extra.fakePaymentId = Buffer.from(contact.extra.paymentId, 'hex').toString()
     }
   }
 }

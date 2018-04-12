@@ -1,37 +1,37 @@
 <template>
   <page title="My Wallet">
-    <div class="card card-dash-one mg-t-20">
+    <div class="card card-dash-one mg-t-20" v-if="this.view.isLoaded">
       <div class="row no-gutters">
         <div class="col-lg-3">
           <i class="icon ion-shuffle"></i>
           <div class="dash-content">
             <label class="tx-primary">Balance</label>
             <h2 ><amount :value="this.view.dashboard.balance.total" /></h2>
-          </div><!-- dash-content -->
-        </div><!-- col-3 -->
+          </div>
+        </div>
         <div class="col-lg-3">
           <i class="icon fa fa-lock"></i>
           <div class="dash-content">
             <label class="tx-danger">Locked</label>
             <h2><amount :value="this.view.dashboard.balance.locked" /></h2>
-          </div><!-- dash-content -->
+          </div>
         </div>
         <div class="col-lg-3">
           <i class="icon fa fa-money"></i>
           <div class="dash-content">
-            <label class="tx-success">Value (R$)</label>
-            <h2>465,183</h2>
-          </div><!-- dash-content -->
-        </div><!-- col-3 -->
+            <label class="tx-success">Value ({{this.view.to}})</label>
+            <h2><convert-coin :to="this.view.to" :amount="this.view.dashboard.balance.total" /></h2>
+          </div>
+        </div>
         <div class="col-lg-3">
           <i class="icon ion-social-bitcoin"></i>
           <div class="dash-content">
             <label class="tx-purple">Value (BTC)</label>
-            <h2>781,524</h2>
-          </div><!-- dash-content -->
-        </div><!-- col-3 -->
-      </div><!-- row -->
-    </div><!-- card -->
+            <h2><convert-coin to="BTC" :amount="this.view.dashboard.balance.total" /></h2>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="row row-sm mg-t-20">
       <div class="col-lg-12 mg-t-20 mg-lg-t-0">
@@ -61,22 +61,28 @@
 <script>
 import Page from '@/components/common/page/Page'
 import Amount from '@/components/common/ui/Amount'
+import ConvertCoin from '@/components/common/ui/ConvertCoin'
 import AddressesBox from '@/components/pages/home/AddressesBox'
 import TransactionsCard from '@/components/pages/transactions/TransactionsCard'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
+import Config from '@/Config'
 
 export default {
   components: {
     Page,
     AddressesBox,
     Amount,
-    TransactionsCard
+    TransactionsCard,
+    ConvertCoin
   },
 
   data () {
+    const userController = ControllerFactory.getController('user', this)
+
     return {
       view: {
         selectedAddress: this.$route.params.address,
+        to: userController.getCurrentUser().defaultCurrency || Config.defaultCurrency,
         dashboard: {
           balance: {
             available: 0,
@@ -85,7 +91,8 @@ export default {
           },
           addresses: [],
           transactions: []
-        }
+        },
+        isLoaded: false
       }
     }
   },
@@ -152,10 +159,12 @@ export default {
 
         chain
           .then(() => {
+            self.view.isLoaded = false
             return dashboardController.getDashboard(address)
           })
           .then(r => {
             self.view.dashboard = r
+            self.view.isLoaded = true
 
             if (address) {
               self.selectedAddress = address
@@ -174,7 +183,7 @@ export default {
 
 <style>
 .dash-content h2 {
-   max-width: 170px;
+   max-width: 165px;
    overflow: hidden;
    white-space: nowrap;
    text-overflow: ellipsis;

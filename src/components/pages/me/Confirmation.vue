@@ -3,7 +3,7 @@
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="signin-box">
       <h2 class="slim-logo slim-logo text-center"><img src="/static/img/logo-nbr.png" style="width: 30%" /></h2>
-      <h3 class="signin-title-secondary">Sign in to continue.</h3>
+      <h3 class="signin-title-secondary">Confirmation.</h3>
 
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Enter your email" v-model="user.email">

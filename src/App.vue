@@ -4,6 +4,7 @@
     <master v-if="this.view.show && this.isMaster" :user="this.user" />
     <login v-if="this.view.show && this.isLogin" />
     <sign-up v-if="this.view.show && this.isSignUp" />
+    <confirmation v-if="this.view.show && this.isConfirmation" />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import Loading from '@/components/common/ui/Loading'
 import Master from '@/components/Master'
 import Login from '@/components/Login'
+import Confirmation from '@/components/pages/me/Confirmation'
 import SignUp from '@/components/SignUp'
 import EventBus from '@/lib/EventBus'
 import Thread from '@/lib/Thread'
@@ -22,7 +24,8 @@ export default {
     Master,
     Login,
     SignUp,
-    Loading
+    Loading,
+    Confirmation
   },
 
   data () {
@@ -40,7 +43,8 @@ export default {
 
   computed: {
     isLogin () {
-      return this.$route.path === '/login' || (this.$route.path !== '/signup' && !this.isLoggedOn)
+      return this.$route.path === '/login' ||
+             (this.$route.path !== '/signup' && !this.isConfirmation && !this.isLoggedOn)
     },
 
     isSignUp () {
@@ -48,7 +52,12 @@ export default {
     },
 
     isMaster () {
-      return !this.isLogin && !this.isSignUp
+      return !this.isLogin && !this.isSignUp && !this.isConfirmation
+    },
+
+    isConfirmation () {
+      return this.$route.path.includes('/users') &&
+             this.$route.path.includes('/confirmation')
     }
   },
 

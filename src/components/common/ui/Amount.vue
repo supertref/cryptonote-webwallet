@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import Config from '@/Config'
+
 export default {
   props: ['value', 'isFixed'],
 
@@ -12,9 +14,9 @@ export default {
         return 'N/A'
       } else {
         if (this.isFixed) {
-          return (this.value / 100000000).toFixed(8).toString()
+          return (this.value / Config.defaultUnit).toFixed(8).toString()
         } else {
-          return (this.value / 100000000).toString()
+          return (this.value / Config.defaultUnit).toString()
         }
       }
     }

@@ -45,6 +45,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
     proxy: {
+      "/api/v1/conversions": {
+        target: "http://localhost:3003/v1/conversions",
+        pathRewrite: {"^/api/v1/conversions" : ""}
+      },
+      "/api/v1/tickers/NBR": {
+        target: "http://localhost:3003/v1/tickers/NBR",
+        pathRewrite: {"^/api/v1/tickers/NBR" : ""}
+      },
       "/api": {
         target: "http://localhost:3001",
         pathRewrite: {"^/api" : ""}

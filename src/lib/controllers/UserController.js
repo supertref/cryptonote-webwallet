@@ -36,7 +36,7 @@ class UserController {
     return new Promise((resolve, reject) => {
       this.resourceHelper.put('/api/v1/users/me', user)
         .then(res => {
-          return self.registerUserFromResponse(res)
+          return self.updateToken()
         })
         .then(resolve)
         .catch(reject)
@@ -111,7 +111,10 @@ class UserController {
 
   registerUserFromResponse (user) {
     // sending to the app the new user
-    localStorage.setItem('currentUserToken', user.token)
+
+    if (user.token) {
+      localStorage.setItem('currentUserToken', user.token)
+    }
     EventBus.$emit('new-user', user)
 
     return user

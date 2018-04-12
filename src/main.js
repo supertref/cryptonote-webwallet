@@ -29,7 +29,7 @@ Vue.use(VueCurrencyFilter, {
 
 Vue.use(money, {
   decimal: '.',
-  thousands: ',',
+  thousands: '',
   prefix: '',
   suffix: '',
   precision: 8,

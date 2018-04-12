@@ -88,6 +88,16 @@
             <span>Created at:</span>
             <span><i class="fa fa-calendar tx-info"></i> {{transaction.createdAt | moment-formatted}}</span>
           </p>
+          <p class="invoice-info-row">
+            <span>{{view.to}}:</span>
+            <span v-if="transaction.amount < 0" class="tx-danger"><i class="fa fa-money"></i> <convert-coin :to="view.to" :amount="transaction.amount" /> {{view.to}}</span>
+            <span v-if="transaction.amount >= 0"><i class="fa fa-money tx-info"></i> <convert-coin :to="view.to" :amount="transaction.amount" /> {{view.to}}</span>
+          </p>
+          <p class="invoice-info-row">
+            <span>BTC:</span>
+            <span v-if="transaction.amount < 0" class="tx-danger"><i class="icon ion-social-bitcoin"></i> <convert-coin to="BTC" :amount="transaction.amount" /> BTC</span>
+            <span v-if="transaction.amount >= 0"><i class="icon ion-social-bitcoin tx-info"></i> <convert-coin to="BTC" :amount="transaction.amount" /> BTC</span>
+          </p>
         </div>
       </div>
     </div>
@@ -98,17 +108,24 @@
 import Page from '@/components/common/page/Page'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import Amount from '@/components/common/ui/Amount'
+import ConvertCoin from '@/components/common/ui/ConvertCoin'
+import Config from '@/Config'
 
 export default {
   components: {
     Page,
-    Amount
+    Amount,
+    ConvertCoin
   },
 
   data () {
+    const userController = ControllerFactory.getController('user', this)
+
     return {
       view: {
-        id: this.$route.params.id
+        id: this.$route.params.id,
+        config: Config,
+        to: userController.getCurrentUser().to || Config.defaultCurrency
       },
       transaction: {
         from: 'Anonymous',
@@ -142,3 +159,12 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.media-body h1 {
+   max-width: 250px;
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
+</style>
