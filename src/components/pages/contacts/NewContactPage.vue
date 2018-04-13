@@ -1,5 +1,5 @@
 <template>
-  <page title="New Contact">
+  <page :title="$t('contacts.newContact')">
     <contact-box />
   </page>
 </template>

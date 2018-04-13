@@ -36,16 +36,16 @@ class MessageBox {
   }
 
   showSuccess (message, onClose) {
-    this.showInfo('Tudo certo!!!', message, onClose)
+    this.showInfo(this.vueContext.$t('messages.ok.title'), message, onClose)
   }
 
   showCriticalError (error, onClose) {
     console.log(error)
-    this.showError('OMG!!!', 'Somthing worong with our servers is goind on! Try again later', onClose)
+    this.showError(this.vueContext.$t('messages.criticalError.title'), this.vueContext.$t('messages.criticalError.message'), onClose)
   }
 
   showRequiredFieldsMessage () {
-    this.showError('Required fields!', 'All fields marked with * are required!')
+    this.showError(this.vueContext.$t('messages.requiredFields.title'), this.vueContext.$t('messages.requiredFields.message'))
   }
 
   confirm (title, message, fnCallback) {

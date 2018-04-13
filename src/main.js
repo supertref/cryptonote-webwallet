@@ -10,13 +10,26 @@ import VueTheMask from 'vue-the-mask'
 import VueClipboard from 'vue-clipboard2'
 import moment from 'moment'
 import money from 'v-money'
+import VueI18n from 'vue-i18n'
+import VueCookie from 'vue-cookie'
+import locales from './locales/locales'
+import Config from './Config'
 
 Vue.config.productionTip = false
 
 Vue.component('simplert', Simplert)
+
 Vue.use(VueResource)
 Vue.use(VueTheMask)
 Vue.use(VueClipboard)
+Vue.use(VueCookie)
+Vue.use(VueI18n)
+
+const i18n = new VueI18n({
+  locale: Config.defaultLocale,
+  messages: locales,
+  fallbackLocale: Config.defaultLocale
+})
 
 Vue.use(VueCurrencyFilter, {
   symbol: 'R$',
@@ -51,6 +64,7 @@ Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('cur
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  i18n,
   router,
   components: { App },
   template: '<App/>'

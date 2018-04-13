@@ -1,7 +1,7 @@
 <template>
   <div class="card card-table">
     <div class="card-header">
-      <h6 class="slim-card-title">Transaction History</h6>
+      <h6 class="slim-card-title">{{$t('dashboard.transactionHistory')}}</h6>
     </div>
     <div class="table-responsive">
       <transactions-table :transactions="transactions" />

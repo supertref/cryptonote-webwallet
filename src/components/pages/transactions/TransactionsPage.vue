@@ -1,5 +1,5 @@
 <template>
-  <page title="Transactions" :subTitle="this.view.address">
+  <page :title="$t('transactions.transactions')" :subTitle="this.view.address">
     <div class="row row-sm mg-t-20">
       <div class="col-lg-12 mg-t-20 mg-lg-t-0">
         <transactions-card :transactions="this.transactions">

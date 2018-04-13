@@ -3,16 +3,16 @@
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="signin-box">
       <h2 class="slim-logo slim-logo text-center"><img src="/static/img/logo-nbr.png" style="width: 30%" /></h2>
-      <h3 class="signin-title-secondary">Sign in to continue.</h3>
+      <h3 class="signin-title-secondary">{{ $t("login.hello") }}</h3>
 
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Enter your email" v-model="user.email">
+        <input type="email" class="form-control" :placeholder="$t('login.emailPlaceholder')" v-model="user.email">
       </div>
       <div class="form-group mg-b-50">
-        <input type="password" class="form-control" placeholder="Enter your password" v-model="user.password">
+        <input type="password" class="form-control" :placeholder="$t('login.passwordPlaceholder')" v-model="user.password">
       </div>
-      <button class="btn btn-primary btn-block btn-signin" @click="login">Sign In</button>
-      <p class="mg-b-0">Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
+      <button class="btn btn-primary btn-block btn-signin" @click="login">{{ $t("login.signIn") }}</button>
+      <p class="mg-b-0">{{ $t("login.createAccount") }} <router-link to="/signup">{{ $t("login.signUp") }}</router-link></p>
     </div>
   </div>
 </template>
@@ -77,7 +77,7 @@ export default {
             console.log(error)
             switch (error.status) {
               case 404:
-                messageBox.showError('Invalid credentials!', 'Please inform a valid email and password to sign in.')
+                messageBox.showError(this.$t('messages.invalidCredentials.title'), this.$t('messages.invalidCredentials.message'))
                 break
               default:
                 messageBox.showCriticalError()

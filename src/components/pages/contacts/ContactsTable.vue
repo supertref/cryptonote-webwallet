@@ -2,8 +2,8 @@
   <table class="table mg-b-0 tx-13">
     <thead>
       <tr class="tx-10">
-        <th>Name</th>
-        <th>Address</th>
+        <th>{{$t('contacts.name')}}</th>
+        <th>{{$t('contacts.address')}}</th>
       </tr>
     </thead>
     <tbody>

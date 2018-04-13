@@ -1,5 +1,5 @@
 <template>
-  <page title="Contact">
+  <page :title="$t('contacts.contact')">
     <contact-box v-if="item" :item="item" />
   </page>
 </template>

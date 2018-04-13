@@ -1,32 +1,32 @@
 <template>
-  <page title="My Wallet">
+  <page :title="$t('dashboard.title')">
     <div class="card card-dash-one mg-t-20" v-if="this.view.isLoaded">
       <div class="row no-gutters">
         <div class="col-lg-3">
           <i class="icon ion-shuffle"></i>
           <div class="dash-content">
-            <label class="tx-primary">Balance</label>
+            <label class="tx-primary">{{$t('dashboard.balance')}}</label>
             <h2 ><amount :value="this.view.dashboard.balance.total" /></h2>
           </div>
         </div>
         <div class="col-lg-3">
           <i class="icon fa fa-lock"></i>
           <div class="dash-content">
-            <label class="tx-danger">Locked</label>
+            <label class="tx-danger">{{$t('dashboard.locked')}}</label>
             <h2><amount :value="this.view.dashboard.balance.locked" /></h2>
           </div>
         </div>
         <div class="col-lg-3">
           <i class="icon fa fa-money"></i>
           <div class="dash-content">
-            <label class="tx-success">Value ({{this.view.to}})</label>
+            <label class="tx-success">{{$t('dashboard.value')}} ({{this.view.to}})</label>
             <h2><convert-coin :to="this.view.to" :amount="this.view.dashboard.balance.total" /></h2>
           </div>
         </div>
         <div class="col-lg-3">
           <i class="icon ion-social-bitcoin"></i>
           <div class="dash-content">
-            <label class="tx-purple">Value (BTC)</label>
+            <label class="tx-purple">{{$t('dashboard.value')}} (BTC)</label>
             <h2><convert-coin to="BTC" :amount="this.view.dashboard.balance.total" /></h2>
           </div>
         </div>
@@ -49,8 +49,8 @@
         <transactions-card :transactions="this.view.dashboard.transactions">
           <div class="card-footer tx-12 pd-y-15 bg-transparent"
             v-if="this.view.dashboard.transactions.totalCount > 10">
-            <router-link v-if="selectedAddress" :to="'/addresses/' + selectedAddress + '/transactions'"><i class="fa fa-angle-down mg-r-5"></i>View All Transaction History</router-link>
-            <router-link v-if="!selectedAddress" :to="'/addresses/transactions'"><i class="fa fa-angle-down mg-r-5"></i>View All Transaction History</router-link>
+            <router-link v-if="selectedAddress" :to="'/addresses/' + selectedAddress + '/transactions'"><i class="fa fa-angle-down mg-r-5"></i>{{$t('dashboard.viewAllHistory')}}</router-link>
+            <router-link v-if="!selectedAddress" :to="'/addresses/transactions'"><i class="fa fa-angle-down mg-r-5"></i>{{$t('dashboard.viewAllHistory')}}</router-link>
           </div>
         </transactions-card>
       </div>

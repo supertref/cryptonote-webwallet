@@ -4,5 +4,6 @@ export default {
   decimals: 8,
   defaultUnit: 100000000,
   defaultCurrency: 'USD',
-  minimumFee: 10000
+  minimumFee: 10000,
+  defaultLocale: 'en-us'
 }

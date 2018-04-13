@@ -17,6 +17,7 @@ import Confirmation from '@/components/pages/me/Confirmation'
 import SignUp from '@/components/SignUp'
 import EventBus from '@/lib/EventBus'
 import Thread from '@/lib/Thread'
+import Config from '@/Config'
 
 export default {
   name: 'App',
@@ -64,7 +65,9 @@ export default {
   mounted () {
     var self = this
 
-    this.thread = new Thread('checkUser', 60 * 1000, () => {
+    self.$i18n.locale = self.$cookie.get('locale') || Config.defaultLocal
+
+    this.thread = new Thread('checkUser', 5 * 60 * 1000, () => {
       self.checkUser()
     })
 

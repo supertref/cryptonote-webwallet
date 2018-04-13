@@ -1,5 +1,5 @@
 <template>
-  <page title="New Transaction">
+  <page :title="$t('transactions.title')">
     <transaction-box />
   </page>
 </template>

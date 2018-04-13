@@ -1,5 +1,5 @@
 <template>
-  <page title="Contacts">
+  <page :title="$t('contacts.title')">
     <div class="row row-sm mg-t-20">
       <div class="col-lg-12 mg-t-20 mg-lg-t-0">
         <contacts-card :contacts="this.contacts" @reload="loadContacts()">

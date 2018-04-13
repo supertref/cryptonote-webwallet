@@ -3,12 +3,12 @@
     <simplert :useIcon="true" ref="simplert" />
     <div class="row">
       <div class="col-lg-12" v-if="!this.contact.id">
-        <label class="section-title">New Contact</label>
-        <p class="mg-b-20 mg-sm-b-40">Use this form to create a new contact and associate an address.</p>
+        <label class="section-title">{{$t('contacts.newContact')}}</label>
+        <p class="mg-b-20 mg-sm-b-40">{{$t('contacts.newContactInfo')}}</p>
       </div>
       <div class="col-lg-12" v-if="this.contact.id">
-        <label class="section-title">Edit Contact</label>
-        <p class="mg-b-20 mg-sm-b-40">Use this form to edit a contact.</p>
+        <label class="section-title">{{$t('contacts.editContact')}}</label>
+        <p class="mg-b-20 mg-sm-b-40">{{$t('contacts.editContactInfo')}}</p>
       </div>
     </div>
 
@@ -16,21 +16,21 @@
       <div class="row mg-b-25">
         <div class="col-lg-6">
           <div class="form-group">
-            <label class="form-control-label">Address: <span class="tx-danger">*</span></label>
-            <input class="form-control" type="text" name="from" v-model="contact.address" placeholder="Address">
+            <label class="form-control-label">{{$t('contacts.address')}}: <span class="tx-danger">*</span></label>
+            <input class="form-control" type="text" name="from" v-model="contact.address" :placeholder="$t('contacts.address')">
           </div>
         </div>
         <div class="col-lg-6">
           <div class="form-group mg-b-10-force">
-            <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-            <input class="form-control" type="text" name="address" v-model="contact.name" placeholder="Name">
+            <label class="form-control-label">{{$t('contacts.name')}}: <span class="tx-danger">*</span></label>
+            <input class="form-control" type="text" name="address" v-model="contact.name" :placeholder="$t('contacts.name')">
           </div>
         </div>
         <div class="col-lg-6">
           <div class="form-group mg-b-10-force">
-            <label class="form-control-label">Default Payment Id: <span class="tx-danger">*</span></label>
+            <label class="form-control-label">{{$t('contacts.defaultPaymentId')}}: <span class="tx-danger">*</span></label>
             <div class="input-group">
-              <input maxlength="32" class="form-control" type="text" name="paymentId" v-model="contact.extra.fakePaymentId" placeholder="Payment Id">
+              <input maxlength="32" class="form-control" type="text" name="paymentId" v-model="contact.extra.fakePaymentId" :placeholder="$t('contacts.defaultPaymentId')">
               <div class="input-group-append">
                 <div class="input-group-text">
                   <button @click="newPaymentId()" class="btn btn-link" style="padding: 0px" title="Click here to generate a new Payment Id">
@@ -44,7 +44,7 @@
         </div>
         <div class="col-lg-6">
           <div class="form-group mg-b-10-force">
-            <label class="form-control-label">Default Anonymity Level: <span class="tx-danger">*</span></label>
+            <label class="form-control-label">{{$t('contacts.defaultAnonymity')}}: <span class="tx-danger">*</span></label>
             <div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" v-model="contact.extra.anonymity" name="anonymityLevel" id="anonymityLevel1" value="1">
@@ -75,7 +75,7 @@
         </div>
         <div class="col-lg-6">
           <div class="form-group">
-            <label class="form-control-label" for="amount">Amount: <span class="tx-danger">*</span></label>
+            <label class="form-control-label" for="amount">{{$t('contacts.defaultAmount')}}: <span class="tx-danger">*</span></label>
             <div class="input-group">
               <money class="form-control" name="amount" id="amount" v-model="contact.amount" placeholder=""></money>
               <div class="input-group-append">
@@ -87,9 +87,9 @@
       </div>
 
       <div class="form-layout-footer">
-        <button @click="saveContact" class="btn btn-primary bd-0">Save</button>
-        <router-link :to="'/contacts'" class="btn btn-secondary bd-0">Cancel</router-link>
-        <button v-if="this.contact.id" @click="removeContact" class="btn btn-danger bd-0 pull-right">Remove</button>
+        <button @click="saveContact" class="btn btn-primary bd-0">{{$t('contacts.save')}}</button>
+        <router-link :to="'/contacts'" class="btn btn-secondary bd-0">{{$t('contacts.cancel')}}</router-link>
+        <button v-if="this.contact.id" @click="removeContact" class="btn btn-danger bd-0 pull-right">{{$t('contacts.remove')}}</button>
       </div>
     </div>
   </div>
@@ -179,10 +179,10 @@ export default {
       const messageBox = new MessageBox(this)
       const self = this
 
-      messageBox.confirm('Remove Contact', 'Are you sure you want to remove this contact?', () => {
+      messageBox.confirm(this.$t('messages.removeContact.title'), this.$t('messages.removeContact.message'), () => {
         contactController.deleteContact(this.contact.id)
           .then(() => {
-            messageBox.showInfo('Contact Removed', 'The contact has been removed successfully', () => {
+            messageBox.showInfo(this.$t('messages.contactRemoved.title'), this.$t('messages.contactRemoved.message'), () => {
               self.$router.push('/contacts')
             })
           })

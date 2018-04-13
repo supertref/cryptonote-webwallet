@@ -1,5 +1,5 @@
 <template>
-  <page title="Transaction" :subTitle="this.view.id">
+  <page :title="$t('transaction.title')" :subTitle="this.view.id">
     <div class="row row-xs">
       <div class="col-sm-6 col-lg-4">
         <div class="card card-status">
@@ -7,7 +7,7 @@
             <i class="icon fa fa-money tx-success"></i>
             <div class="media-body">
               <h1><amount :value="this.transaction.amount" :isFixed="false" /></h1>
-              <p>Amount</p>
+              <p>{{$t('common.amount')}}</p>
             </div>
           </div>
         </div>
@@ -17,8 +17,8 @@
           <div class="media">
             <i class="icon fa fa-chain-broken tx-gray"></i>
             <div class="media-body">
-              <h1>Waiting</h1>
-              <p>Blockchain confirmation</p>
+              <h1>{{$t('transaction.waiting')}}</h1>
+              <p>{{$t('transaction.blockchainConfirmation')}}</p>
             </div>
           </div>
         </div>
@@ -27,8 +27,8 @@
           <div class="media">
             <i class="icon fa fa-chain tx-info"></i>
             <div class="media-body">
-              <h1>Confirmed</h1>
-              <p>Blockchain confirmation</p>
+              <h1>{{$t('common.confirmed')}}</h1>
+              <p>{{$t('transaction.blockchainConfirmation')}}</p>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
             <i class="icon fa fa-cloud-upload tx-primary"></i>
             <div class="media-body">
               <h1><amount :value="this.transaction.fee" /></h1>
-              <p>Fee</p>
+              <p>{{$t('common.fee')}}</p>
             </div>
           </div>
         </div>
@@ -47,45 +47,45 @@
     </div>
 
     <div class="section-wrapper mg-t-10">
-      <label class="section-title">Informations</label>
+      <label class="section-title">{{$t('transaction.informations')}}</label>
       <div class="row">
         <div class="col-lg-12">
           <p class="invoice-info-row">
-            <span>From:</span>
+            <span>{{$t('common.from')}}:</span>
             <span>{{this.transaction.from}}</span>
           </p>
           <p class="invoice-info-row">
-            <span>To:</span>
+            <span>{{$t('common.to')}}:</span>
             <span>{{this.transaction.to.address}}</span>
           </p>
           <p class="invoice-info-row">
-            <span>Payment Id:</span>
+            <span>{{$t('common.paymentId')}}:</span>
             <span>{{this.parsePaymentId()}}</span>
           </p>
           <p class="invoice-info-row">
-            <span>Hash:</span>
+            <span>{{$t('common.hash')}}:</span>
             <span>{{this.transaction.transactionHash}}</span>
           </p>
           <p class="invoice-info-row">
-            <span>Amount:</span>
+            <span>{{$t('common.amount')}}:</span>
             <amount :value="this.transaction.amount" :isFixed="false" />
           </p>
           <p class="invoice-info-row">
-            <span>Fee:</span>
+            <span>{{$t('common.fee')}}:</span>
             <amount :value="this.transaction.fee" :isFixed="false" />
           </p>
           <p class="invoice-info-row">
-            <span>Anonymity:</span>
+            <span>{{$t('common.anonymity')}}:</span>
             <span v-if="this.transaction.extra.anonymity">{{this.transaction.extra.anonymity}}</span>
-            <span v-if="!this.transaction.extra.anonymity">N/A</span>
+            <span v-if="!this.transaction.extra.anonymity">{{$t('common.na')}}</span>
           </p>
           <p class="invoice-info-row">
-            <span>Status:</span>
-            <span v-if="this.transaction.status === 2"><i class="fa fa-chain tx-info"></i> Confirmed</span>
-            <span v-if="this.transaction.status !== 2"><i class="fa fa-chain-broken tx-gray"></i> Waiting confirmations</span>
+            <span>{{$t('common.status')}}:</span>
+            <span v-if="this.transaction.status === 2"><i class="fa fa-chain tx-info"></i> {{$t('common.confirmed')}}</span>
+            <span v-if="this.transaction.status !== 2"><i class="fa fa-chain-broken tx-gray"></i> {{$t('common.waitingConfirmation')}}</span>
           </p>
           <p class="invoice-info-row">
-            <span>Created at:</span>
+            <span>{{$t('common.createdAt')}}:</span>
             <span><i class="fa fa-calendar tx-info"></i> {{transaction.createdAt | moment-formatted}}</span>
           </p>
           <p class="invoice-info-row">

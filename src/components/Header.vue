@@ -3,7 +3,7 @@
   <div class="slim-header">
     <div class="container">
       <div class="slim-header-left">
-        <h3 class="slim-logo"><router-link to="/"><img src="/static/img/logo-nbr.png" style="width: 5%" /> nbr<span></span></router-link></h3>
+        <h3 class="slim-logo"><router-link to="/"><img src="/static/img/logo-nbr.png" style="width: 50px" /> nbr<span></span></router-link></h3>
       </div><!-- slim-header-left -->
       <div class="slim-header-right">
         <div class="dropdown dropdown-b">
@@ -13,7 +13,7 @@
           </a>
           <div class="dropdown-menu">
             <div class="dropdown-menu-header">
-              <h6 class="dropdown-menu-title">Notifications</h6>
+              <h6 class="dropdown-menu-title">{{$t('menu.notifications')}}</h6>
             </div>
             <div class="dropdown-list">
               <a href="#" class="dropdown-link">
@@ -63,9 +63,9 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <nav class="nav">
-              <router-link to="/me" class="nav-link"><i class="icon ion-person"></i> Profile</router-link>
-              <router-link to="/settings" class="nav-link"><i class="icon ion-ios-gear"></i> Settings</router-link>
-              <a href="#" @click="logout" class="nav-link"><i class="icon ion-forward"></i> Sign Out</a>
+              <router-link to="/me" class="nav-link"><i class="icon ion-person"></i> {{$t('menu.profile')}}</router-link>
+              <router-link to="/settings" class="nav-link"><i class="icon ion-ios-gear"></i> {{$t('menu.settings')}}</router-link>
+              <a href="#" @click="logout" class="nav-link"><i class="icon ion-forward"></i> {{$t('menu.signOut')}}</a>
             </nav>
           </div>
         </div>

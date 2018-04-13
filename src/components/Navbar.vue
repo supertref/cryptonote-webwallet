@@ -5,25 +5,25 @@
         <li :class="['nav-item', {active: isHome}]">
           <router-link to="/" class="nav-link">
             <i class="icon ion-ios-home-outline"></i>
-            <span>Dashboard</span>
+            <span>{{$t('menu.dashboard')}}</span>
           </router-link>
         </li>
         <li :class="['nav-item', {active: isTransactions}]">
           <router-link to="/addresses/transactions" class="nav-link">
             <i class="icon ion-ios-filing-outline"></i>
-            <span>Transactions</span>
+            <span>{{$t('menu.transactions')}}</span>
           </router-link>
         </li>
         <li :class="['nav-item', {active: isContacts}]">
           <router-link to="/contacts" class="nav-link">
             <i class="icon ion-ios-book-outline"></i>
-            <span>Contacts</span>
+            <span>{{$t('menu.contacts')}}</span>
           </router-link>
         </li>
         <li :class="['nav-item', {active: isSettings}]">
           <a class="nav-link" href="#" data-toggle="dropdown">
             <i class="icon ion-ios-gear-outline"></i>
-            <span>Settings</span>
+            <span>{{$t('menu.settings')}}</span>
           </a>
         </li>
       </ul>

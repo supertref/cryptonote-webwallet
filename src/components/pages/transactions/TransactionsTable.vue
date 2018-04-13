@@ -2,10 +2,10 @@
   <table class="table mg-b-0 tx-13">
     <thead>
       <tr class="tx-10">
-        <th>From</th>
-        <th>To</th>
-        <th width="20%">Amount</th>
-        <th width="20%">Date</th>
+        <th>{{$t('common.from')}}</th>
+        <th>{{$t('common.to')}}</th>
+        <th width="20%">{{$t('common.amount')}}</th>
+        <th width="20%">{{$t('common.date')}}</th>
       </tr>
     </thead>
     <tbody>
@@ -20,8 +20,8 @@
           <span v-if="transaction.amount < 0" class="tx-danger"><i class="icon ion-android-arrow-down mg-r-5"></i><amount :value="transaction.amount" /></span>
           <span v-if="transaction.amount >= 0" class="tx-success"><i class="icon ion-android-arrow-up mg-r-5"></i><amount :value="transaction.amount" /></span>
 
-          <span class="tx-11 d-block" v-if="transaction.status === 2"><span class="square-8 bg-info mg-r-5 rounded-circle"></span>Confirmed</span>
-          <span class="tx-11 d-block" v-if="transaction.status !== 2"><span class="square-8 bg-warning mg-r-5 rounded-circle"></span>Waiting confirmation</span>
+          <span class="tx-11 d-block" v-if="transaction.status === 2"><span class="square-8 bg-info mg-r-5 rounded-circle"></span>{{$t('common.confirmed')}}</span>
+          <span class="tx-11 d-block" v-if="transaction.status !== 2"><span class="square-8 bg-warning mg-r-5 rounded-circle"></span>{{$t('common.waitingConfirmation')}}</span>
         </td>
         <td>{{transaction.createdAt | moment-from}}
         <span class="tx-11 d-block">{{transaction.createdAt | moment-formatted}}</span></td>
