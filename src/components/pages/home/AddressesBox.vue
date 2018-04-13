@@ -9,7 +9,7 @@
             <div>
               <i class="icon ion-ios-pricetags-outline mg-r-10" />
               <span v-if="!selectedAddress">{{$t('dashboard.selectAnAddress')}}</span>
-              <span v-if="selectedAddress" class="hide-mobile">{{$t('dashboard.selectAnAddress')}}</span>
+              <span v-if="selectedAddress" class="hide-mobile">{{selectedAddress}}</span>
               <address-box v-if="selectedAddress" class="show-mobile" :address="selectedAddress" />
               <i class="fa fa-angle-down mg-l-10"></i>
             </div>

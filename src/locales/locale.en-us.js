@@ -74,6 +74,8 @@ export default {
     status: 'Status',
     createdAt: 'Created at',
     na: 'N/A',
+    save: 'Salvar',
+    cancel: 'Cancelar',
     ok: 'Ok'
   },
   login: {
