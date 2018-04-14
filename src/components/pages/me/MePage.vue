@@ -54,7 +54,7 @@
               <div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="language" v-model="user.language" id="languagePTBR" value="pt-br">
-                  <label class="form-check-label" for="languagePTBR">Portugês</label>
+                  <label class="form-check-label" for="languagePTBR">Português</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="language" v-model="user.language" id="languageENUS" value="en-us">

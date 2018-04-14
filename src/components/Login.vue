@@ -2,14 +2,21 @@
   <div class="signin-wrapper">
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="signin-box">
-      <h2 class="slim-logo slim-logo text-center"><img src="/static/img/logo-nbr.png" style="width: 30%" /></h2>
+      <h2 class="slim-logo slim-logo text-center"><img src="/static/img/logo-nbr.png" style="width: 100px" /></h2>
       <h3 class="signin-title-secondary">{{ $t("login.hello") }}</h3>
-
       <div class="form-group">
-        <input type="email" class="form-control" :placeholder="$t('login.emailPlaceholder')" v-model="user.email">
+        <input type="email" class="form-control" @keyup.enter="login()" :placeholder="$t('login.emailPlaceholder')" v-model="user.email">
       </div>
-      <div class="form-group mg-b-50">
-        <input type="password" class="form-control" :placeholder="$t('login.passwordPlaceholder')" v-model="user.password">
+      <div class="form-group">
+        <input type="password" class="form-control" @keyup.enter="login()" :placeholder="$t('login.passwordPlaceholder')" v-model="user.password">
+      </div>
+      <div class="mg-b-50">
+        <vue-recaptcha
+          ref="recaptcha"
+          @verify="onVerify"
+          @expired="onExpired"
+          :sitekey="this.sitekey">
+        </vue-recaptcha>
       </div>
       <button class="btn btn-primary btn-block btn-signin" @click="login">{{ $t("login.signIn") }}</button>
       <p class="mg-b-0">{{ $t("login.createAccount") }} <router-link to="/signup">{{ $t("login.signUp") }}</router-link></p>
@@ -19,11 +26,18 @@
 
 <script>
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
+import VueRecaptcha from 'vue-recaptcha'
 import MessageBox from '@/lib/ui/MessageBox'
+import Config from '@/Config'
 
 export default {
+  components: {
+    VueRecaptcha
+  },
+
   data: function () {
     return {
+      sitekey: Config.reCAPTCHA.sitekey,
       validateFields: false,
       user: {
         email: '',
@@ -31,7 +45,8 @@ export default {
       },
       view: {
         isLogging: false,
-        isLogOut: this.$route.path === '/logout'
+        isLogOut: this.$route.path === '/logout',
+        isRECaptchaValid: false
       }
     }
   },
@@ -56,6 +71,9 @@ export default {
   },
 
   methods: {
+    onVerify: function (response) {
+      this.isRECaptchaValid = response.length > 0
+    },
 
     login () {
       this.validateFields = true
@@ -65,6 +83,8 @@ export default {
 
       if (!this.isFormValid) {
         messageBox.showRequiredFieldsMessage()
+      } else if (!this.isRECaptchaValid) {
+        messageBox.showWarning(this.$t('messages.reCAPTCHA.title'), this.$t('messages.reCAPTCHA.message'))
       } else {
         self.view.isLogging = true
         controller.login(this.user.email, this.user.password)

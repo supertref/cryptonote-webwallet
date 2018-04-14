@@ -62,10 +62,17 @@ export default {
     }
   },
 
+  created () {
+    let recaptchaScript = document.createElement('script')
+    const locale = this.$cookie.get('locale') || Config.defaultLocale
+    recaptchaScript.setAttribute('src', `https://www.google.com/recaptcha/api.js?hl=${locale}&onload=vueRecaptchaApiLoaded&render=explicit`)
+    document.head.appendChild(recaptchaScript)
+  },
+
   mounted () {
     var self = this
 
-    self.$i18n.locale = self.$cookie.get('locale') || Config.defaultLocal
+    self.$i18n.locale = self.$cookie.get('locale') || Config.defaultLocale
 
     this.thread = new Thread('checkUser', 5 * 60 * 1000, () => {
       self.checkUser()

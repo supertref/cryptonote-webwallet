@@ -58,6 +58,10 @@ export default {
     invalidCredentials: {
       title: 'Iniciar sesión no válido!',
       message: 'Introduzca un email y una contraseña válidos para entrar.'
+    },
+    reCAPTCHA: {
+      title: 'reCAPTCHA no es inválido!',
+      message: 'Por favor confirma que no eres un robot!'
     }
   },
   common: {

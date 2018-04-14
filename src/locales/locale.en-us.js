@@ -58,6 +58,10 @@ export default {
     invalidCredentials: {
       title: 'Invalid credentials!',
       message: 'Please inform a valid email and password to sign in.'
+    },
+    reCAPTCHA: {
+      title: 'reCAPTCHA is not invalid!',
+      message: 'Please confirm you are not a robot!'
     }
   },
   common: {

@@ -5,5 +5,8 @@ export default {
   defaultUnit: 100000000,
   defaultCurrency: 'USD',
   minimumFee: 10000,
-  defaultLocale: 'en-us'
+  defaultLocale: 'en-us',
+  reCAPTCHA: {
+    sitekey: '6LcRJFMUAAAAAIivj-K7w1kf-lmdFF7AbBYIeF8B'
+  }
 }
