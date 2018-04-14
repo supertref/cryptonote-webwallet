@@ -8,7 +8,7 @@ class AddressController {
     this.resourceHelper = dependencies.resourceHelper
   }
 
-  getBalance (address) {
+  getBalance (address, supressLoading) {
     var self = this
 
     return new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ class AddressController {
 
       logger.info(`Getting the balance for the address ${address}`)
 
-      self.resourceHelper.get(endpoint)
+      self.resourceHelper.get(endpoint, supressLoading)
         .then(resolve)
         .catch(reject)
     })
@@ -48,12 +48,12 @@ class AddressController {
     })
   }
 
-  getAddresses () {
+  getAddresses (supressLoading) {
     var self = this
     return new Promise((resolve, reject) => {
       logger.info(`Getting the addresses`)
 
-      self.resourceHelper.get('/api/v1/addresses')
+      self.resourceHelper.get('/api/v1/addresses', supressLoading)
         .then(resolve)
         .catch(reject)
     })

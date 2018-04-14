@@ -9,7 +9,7 @@ class DashboardController {
     this.transactionController = dependencies.transactionController
   }
 
-  getDashboard (address) {
+  getDashboard (address, supressLoading) {
     var self = this
 
     return new Promise((resolve, reject) => {
@@ -21,15 +21,15 @@ class DashboardController {
 
       chain
         .then(function () {
-          return self.addressController.getBalance(address)
+          return self.addressController.getBalance(address, supressLoading)
         })
         .then(function (r) {
           dashboard.balance = r
-          return self.addressController.getAddresses()
+          return self.addressController.getAddresses(supressLoading)
         })
         .then(function (r) {
           dashboard.addresses = r
-          return self.transactionController.getTransactions(address, {limit: 10, offset: 0}, '-createdAt')
+          return self.transactionController.getTransactions(address, {limit: 10, offset: 0}, '-createdAt', supressLoading)
         })
         .then(function (r) {
           dashboard.transactions = r

@@ -119,7 +119,7 @@ export default {
     }
   },
 
-  destroy () {
+  destroyed () {
     this.thread.stop()
   }
 }

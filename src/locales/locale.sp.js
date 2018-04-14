@@ -1,4 +1,10 @@
 export default {
+  alerts: {
+    loginOk: '¡Login realizado con éxito!',
+    loginFailed: '¡Un intento sin éxito de acceder a su cuenta se realizó!',
+    newTransaction: '¡Se ha recibido información de una nueva transacción!',
+    transactionConfirmed: 'Se ha confirmado una transacción!'
+  },
   messages: {
     requiredFields: {
       title: '¡Campos obligatorios!',
@@ -62,6 +68,10 @@ export default {
     reCAPTCHA: {
       title: 'reCAPTCHA no es inválido!',
       message: 'Por favor confirma que no eres un robot!'
+    },
+    invalidEmail: {
+      title: 'Invalid email',
+      message: 'Este e-mail ya está en uso por otro usuario (tal vez usted mismo)!'
     }
   },
   common: {

@@ -8,7 +8,7 @@ class TransactionController {
     this.resourceHelper = dependencies.resourceHelper
   }
 
-  getTransactions (address, pagination, sort) {
+  getTransactions (address, pagination, sort, supressLoading) {
     var self = this
     return new Promise((resolve, reject) => {
       logger.info(`Getting the transactions ${address}`)
@@ -31,7 +31,7 @@ class TransactionController {
         endpoint += `&offset=${pagination.offset}&limit=${pagination.limit}`
       }
 
-      self.resourceHelper.get(endpoint)
+      self.resourceHelper.get(endpoint, supressLoading)
         .then(resolve)
         .catch(reject)
     })

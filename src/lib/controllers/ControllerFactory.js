@@ -4,11 +4,16 @@ import ResourceHelper from '@/lib/helpers/ResourceHelper'
 import DashboardController from '@/lib/controllers/DashboardController'
 import ContactController from '@/lib/controllers/ContactController'
 import UserController from '@/lib/controllers/UserController'
+import AlertController from '@/lib/controllers/AlertController'
 import TickerController from '@/lib/controllers/TickerController'
 
 export default {
   getController (controller, vueContext) {
     switch (controller) {
+      case 'alert':
+        return new AlertController(vueContext, {
+          resourceHelper: new ResourceHelper()
+        })
       case 'ticker':
         return new TickerController(vueContext, {
           resourceHelper: new ResourceHelper()

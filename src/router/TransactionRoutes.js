@@ -9,7 +9,8 @@ const routes = [
   },
   {
     path: '/transactions/:id',
-    component: TransactionPage
+    component: TransactionPage,
+    name: 'transaction'
   },
   {
     path: '/addresses/:address/transactions',

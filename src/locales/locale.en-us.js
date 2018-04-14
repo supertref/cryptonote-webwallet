@@ -1,4 +1,10 @@
 export default {
+  alerts: {
+    loginOk: 'Login performed successfully!',
+    loginFailed: 'A failed attempt to access your acount occured!',
+    newTransaction: 'A new transaction info has been received!',
+    transactionConfirmed: 'A transaction has been confirmed!'
+  },
   messages: {
     requiredFields: {
       title: 'Required fields!',
@@ -62,6 +68,10 @@ export default {
     reCAPTCHA: {
       title: 'reCAPTCHA is not invalid!',
       message: 'Please confirm you are not a robot!'
+    },
+    invalidEmail: {
+      title: 'Invalid email',
+      message: 'This email is already in use by other user (maybe you)!'
     }
   },
   common: {

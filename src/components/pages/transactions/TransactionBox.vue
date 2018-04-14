@@ -81,6 +81,10 @@
             <label class="form-control-label">{{$t('common.anonymity')}}: <span class="tx-danger">*</span></label>
             <div>
               <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" v-model="transaction.extra.anonymity" name="anonymityLevel" id="anonymityLevel0" value="0">
+                <label class="form-check-label" for="anonymityLevel0">0</label>
+              </div>
+              <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" v-model="transaction.extra.anonymity" name="anonymityLevel" id="anonymityLevel1" value="1">
                 <label class="form-check-label" for="anonymityLevel1">1</label>
               </div>
@@ -195,6 +199,7 @@ export default {
       newTransaction.to.amount = this.transaction.to.fakeAmount * 100000000
       newTransaction.fee = this.transaction.fakeFee * 100000000
       newTransaction.changeAddress = this.transaction.from
+      newTransaction.extra.anonymity = parseInt(this.transaction.extra.anonymity)
 
       delete newTransaction.fakeFee
       delete newTransaction.to.fakeAmount

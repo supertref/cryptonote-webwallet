@@ -6,55 +6,7 @@
         <h3 class="slim-logo"><router-link to="/"><img src="/static/img/logo-nbr.png" style="width: 50px" /> nbr<span></span></router-link></h3>
       </div><!-- slim-header-left -->
       <div class="slim-header-right">
-        <div class="dropdown dropdown-b">
-          <a href="#" class="header-notification" data-toggle="dropdown">
-            <i class="icon ion-ios-bell-outline"></i>
-            <span class="indicator"></span>
-          </a>
-          <div class="dropdown-menu">
-            <div class="dropdown-menu-header">
-              <h6 class="dropdown-menu-title">{{$t('menu.notifications')}}</h6>
-            </div>
-            <div class="dropdown-list">
-              <a href="#" class="dropdown-link">
-                <div class="media">
-                  <img src="/static/img/img8.jpg" alt="">
-                  <div class="media-body">
-                    <p><strong>Suzzeth Bungaos</strong> tagged you and 18 others in a post.</p>
-                    <span>October 03, 2017 8:45am</span>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-link">
-                <div class="media">
-                  <img src="/static/img/img9.jpg" alt="">
-                  <div class="media-body">
-                    <p><strong>Mellisa Brown</strong> appreciated your work <strong>The Social Network</strong></p>
-                    <span>October 02, 2017 12:44am</span>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-link ">
-                <div class="media">
-                  <img src="/static/img/img10.jpg" alt="">
-                  <div class="media-body">
-                    <p>20+ new items added are for sale in your <strong>Sale Group</strong></p>
-                    <span>October 01, 2017 10:20pm</span>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-link ">
-                <div class="media">
-                  <img src="/static/img/img2.jpg" alt="">
-                  <div class="media-body">
-                    <p><strong>Julius Erving</strong> wants to connect with you on your conversation with <strong>Ronnie Mara</strong></p>
-                    <span>October 01, 2017 6:08pm</span>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
+        <alerts :isNewAlerts="view.isNewAlerts" :alerts="alerts" />
         <div class="dropdown dropdown-c">
           <a href="#" class="logged-user" data-toggle="dropdown">
             <img src="/static/img/abstract-user-flat-3.svg" alt="">
@@ -76,15 +28,70 @@
 
 <script>
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
+import Thread from '@/lib/Thread'
+import Alerts from '@/components/pages/header/Alerts'
 
 export default {
   props: ['user'],
+
+  components: {
+    Alerts
+  },
+
+  data () {
+    return {
+      alerts: [],
+      view: {
+        isNewAlerts: false
+      }
+    }
+  },
+
+  mounted () {
+    this.loadAlerts()
+
+    this.thread = new Thread('checkIfThereIsNewAlerts', 5 * 1000, () => {
+      this.checkIfThereIsNewAlerts()
+    })
+    this.thread.start()
+
+    this.clearNewAlerts = new Thread('clearNewAlerts', 5 * 60 * 1000, () => {
+      this.view.isNewAlerts = false
+    })
+    this.clearNewAlerts.start()
+  },
+
+  destroyed () {
+    this.thread.stop()
+    this.clearNewAlerts.stop()
+  },
 
   methods: {
     logout () {
       const userController = ControllerFactory.getController('user', this)
       userController.logout()
       this.$router.push('/logout')
+    },
+
+    loadAlerts () {
+      const alertController = ControllerFactory.getController('alert', this)
+
+      alertController.getAlerts()
+        .then(alerts => {
+          this.alerts = alerts
+        })
+    },
+
+    checkIfThereIsNewAlerts () {
+      const alertController = ControllerFactory.getController('alert', this)
+
+      alertController.getUnreadAlerts()
+        .then(alerts => {
+          if (alerts.length > 0) {
+            this.view.isNewAlerts = true
+            return this.loadAlerts()
+          }
+        })
     }
   }
 }

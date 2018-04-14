@@ -3,7 +3,7 @@
     <header-component :user="user" />
     <navbar :user="user" />
     <div class="slim-mainpanel">
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </div>
     <footer-component  :user="user" />
   </div>

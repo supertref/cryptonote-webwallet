@@ -66,6 +66,7 @@ import AddressesBox from '@/components/pages/home/AddressesBox'
 import TransactionsCard from '@/components/pages/transactions/TransactionsCard'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import Config from '@/Config'
+import EventBus from '@/lib/EventBus'
 
 export default {
   components: {
@@ -99,15 +100,33 @@ export default {
 
   mounted () {
     this.loadDashboard()
+
+    EventBus.$on('new-alerts', alerts => {
+      this.checkAlerts(alerts)
+    })
   },
 
   methods: {
-    changeAddress (address) {
-      const self = this
+    checkAlerts (alerts) {
+      let updateScreen = false
+      alerts.forEach(item => {
+        if (item.type === 'TRANSACTION_NEW' || item.type === 'TRANSACTION_CONFIRMED') {
+          console.log('TESTE', item.data.to, this.view.selectedAddress, item.data.to === this.view.selectedAddress)
+          if (item.data.to.address === this.view.selectedAddress || !this.view.selectedAddress) {
+            updateScreen = true
+          }
+        }
+      })
 
+      if (updateScreen) {
+        this.loadDashboard(this.view.selectedAddress, true)
+      }
+    },
+
+    changeAddress (address) {
       this.loadDashboard(address)
         .then(() => {
-          self.view.selectedAddress = address
+          this.view.selectedAddress = address
         })
     },
 
@@ -150,7 +169,7 @@ export default {
       })
     },
 
-    loadDashboard (address) {
+    loadDashboard (address, supressLoading) {
       const self = this
       const dashboardController = ControllerFactory.getController('dashboard', this)
 
@@ -159,8 +178,8 @@ export default {
 
         chain
           .then(() => {
-            self.view.isLoaded = false
-            return dashboardController.getDashboard(address)
+            self.view.isLoaded = false || supressLoading
+            return dashboardController.getDashboard(address, supressLoading)
           })
           .then(r => {
             self.view.dashboard = r

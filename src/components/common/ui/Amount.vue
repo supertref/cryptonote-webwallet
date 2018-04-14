@@ -14,7 +14,7 @@ export default {
         return 'N/A'
       } else {
         if (this.isFixed) {
-          return (this.value / Config.defaultUnit).toFixed(8).toString()
+          return (this.value / Config.defaultUnit).toFixed(Config.decimals).toString()
         } else {
           return (this.value / Config.defaultUnit).toString()
         }

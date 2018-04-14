@@ -47,6 +47,10 @@
             <label class="form-control-label">{{$t('contacts.defaultAnonymity')}}: <span class="tx-danger">*</span></label>
             <div>
               <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" v-model="contact.extra.anonymity" name="anonymityLevel" id="anonymityLevel0" value="0">
+                <label class="form-check-label" for="anonymityLevel0">0</label>
+              </div>
+              <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" v-model="contact.extra.anonymity" name="anonymityLevel" id="anonymityLevel1" value="1">
                 <label class="form-check-label" for="anonymityLevel1">1</label>
               </div>
