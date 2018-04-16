@@ -59,4 +59,3 @@ update_config() {
 }
 
 main
-
