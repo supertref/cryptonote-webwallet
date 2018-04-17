@@ -72,6 +72,16 @@ export default {
     invalidEmail: {
       title: 'Invalid email',
       message: 'This email is already in use by other user (maybe you)!'
+    },
+    passwordReset: {
+      message: 'Your password has been reset successfully! Please sign in.'
+    },
+    passwordResetRequest: {
+      message: 'You will receive a email explain how to reset your password!'
+    },
+    userNotFound: {
+      title: 'User not found!',
+      message: 'Something wrong is going on!'
     }
   },
   common: {
@@ -100,7 +110,10 @@ export default {
     createAccount: 'Don\'t have an account?',
     twoFactorAuthTokenPlaceholder: '2FA (leave blank if you don\'t enabled it)',
     signIn: 'Sign In',
-    signUp: 'Sign Up'
+    signUp: 'Sign Up',
+    verified: 'Account verified!',
+    lostPassword: 'Have you lost your password?',
+    resetPasswordRequest: 'Reset your password'
   },
   menu: {
     dashboard: 'Dashboard',
@@ -198,5 +211,11 @@ export default {
     signUp: 'Sign Up',
     signIn: 'Sign In',
     alreayHaveAccount: 'Already have an account?'
+  },
+  passwordReset: {
+    title: 'Reset your password',
+    passwordPlaceholder: 'New password',
+    newPassword: 'Reset password',
+    emailPlaceholder: 'Email'
   }
 }

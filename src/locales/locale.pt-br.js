@@ -72,6 +72,16 @@ export default {
     invalidEmail: {
       title: 'E-mail inválido :(',
       message: 'Esse e-mail já está em uso por outro usuário (talvez você mesmo)!'
+    },
+    passwordReset: {
+      message: 'Sua senha foi reconfigurada com sucesso! Por favor entre na carteira'
+    },
+    passwordResetRequest: {
+      message: 'Você receberá um email explicando como redefinir sua senha!'
+    },
+    userNotFound: {
+      title: 'Usuário não encontrado!',
+      message: 'Algo estranho está acontecendo!'
     }
   },
   common: {
@@ -98,9 +108,12 @@ export default {
     emailPlaceholder: 'Informe seu e-mail',
     passwordPlaceholder: 'Informe sua senha',
     createAccount: 'Ainda não tem uma conta?',
-    twoFactorAuthTokenPlaceholder: '2FA (deixe em branco caso tenha habilitado)',
+    twoFactorAuthTokenPlaceholder: '2FA (deixe em branco caso não tenha habilitado)',
     signIn: 'Entrar',
-    signUp: 'Cadastrar'
+    signUp: 'Cadastrar',
+    verified: 'Conta verificada!',
+    lostPassword: 'Perdeu sua senha?',
+    resetPasswordRequest: 'Reconfigure a senha'
   },
   menu: {
     dashboard: 'Dashboard',
@@ -198,5 +211,11 @@ export default {
     signUp: 'Criar conta',
     signIn: 'Entrar',
     alreayHaveAccount: 'Já tem uma conta?'
+  },
+  passwordReset: {
+    title: 'Reconfigurar senha',
+    passwordPlaceholder: 'Nova senha',
+    newPassword: 'Reconfigurar senha',
+    emailPlaceholder: 'E-mail'
   }
 }

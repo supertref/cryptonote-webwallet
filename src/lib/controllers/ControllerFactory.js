@@ -6,6 +6,7 @@ import ContactController from '@/lib/controllers/ContactController'
 import UserController from '@/lib/controllers/UserController'
 import AlertController from '@/lib/controllers/AlertController'
 import TickerController from '@/lib/controllers/TickerController'
+import NotificationController from '@/lib/controllers/NotificationController'
 
 export default {
   getController (controller, vueContext) {
@@ -32,6 +33,10 @@ export default {
         })
       case 'transaction':
         return new TransactionController(vueContext, {
+          resourceHelper: new ResourceHelper()
+        })
+      case 'notification':
+        return new NotificationController(vueContext, {
           resourceHelper: new ResourceHelper()
         })
       case 'dashboard':

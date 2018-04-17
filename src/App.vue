@@ -4,7 +4,9 @@
     <master v-if="this.view.show && this.isMaster" :user="this.user" />
     <login v-if="this.view.show && this.isLogin" />
     <sign-up v-if="this.view.show && this.isSignUp" />
-    <confirmation v-if="this.view.show && this.isConfirmation" />
+    <confirmation-page v-if="this.view.show && this.isConfirmation" />
+    <password-reset-page v-if="this.view.show && this.isPasswordReset" />
+    <password-reset-request-page v-if="this.view.show && this.isPasswordResetRequest" />
   </div>
 </template>
 
@@ -13,7 +15,9 @@ import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import Loading from '@/components/common/ui/Loading'
 import Master from '@/components/Master'
 import Login from '@/components/Login'
-import Confirmation from '@/components/pages/me/Confirmation'
+import ConfirmationPage from '@/components/pages/me/ConfirmationPage'
+import PasswordResetPage from '@/components/pages/me/PasswordResetPage'
+import PasswordResetRequestPage from '@/components/pages/me/PasswordResetRequestPage'
 import SignUp from '@/components/SignUp'
 import EventBus from '@/lib/EventBus'
 import Thread from '@/lib/Thread'
@@ -26,7 +30,9 @@ export default {
     Login,
     SignUp,
     Loading,
-    Confirmation
+    ConfirmationPage,
+    PasswordResetPage,
+    PasswordResetRequestPage
   },
 
   data () {
@@ -45,7 +51,11 @@ export default {
   computed: {
     isLogin () {
       return this.$route.path === '/login' ||
-             (this.$route.path !== '/signup' && !this.isConfirmation && !this.isLoggedOn)
+             (this.$route.path !== '/signup' &&
+              !this.isConfirmation &&
+              !this.isPasswordReset &&
+              !this.isPasswordResetRequest &&
+              !this.isLoggedOn)
     },
 
     isSignUp () {
@@ -53,12 +63,26 @@ export default {
     },
 
     isMaster () {
-      return !this.isLogin && !this.isSignUp && !this.isConfirmation
+      return !this.isLogin &&
+             !this.isSignUp &&
+             !this.isConfirmation &&
+             !this.isPasswordReset &&
+             !this.isPasswordResetRequest
     },
 
     isConfirmation () {
       return this.$route.path.includes('/users') &&
              this.$route.path.includes('/confirmation')
+    },
+
+    isPasswordReset () {
+      return this.$route.path.includes('/users') &&
+             this.$route.path.includes('/password-reset') &&
+             !this.$route.path.includes('/password-reset-request')
+    },
+
+    isPasswordResetRequest () {
+      return this.$route.path === '/users/password-reset-request'
     }
   },
 

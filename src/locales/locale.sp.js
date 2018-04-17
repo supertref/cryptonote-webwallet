@@ -72,6 +72,16 @@ export default {
     invalidEmail: {
       title: 'Invalid email',
       message: 'Este e-mail ya está en uso por otro usuario (tal vez usted mismo)!'
+    },
+    passwordReset: {
+      message: '¡Tu contraseña ha sido restablecida exitosamente! Por favor, registrese.'
+    },
+    passwordResetRequest: {
+      message: 'Recibirás un email explicando cómo restablecer tu contraseña!'
+    },
+    userNotFound: {
+      title: 'Usuário no encontrado!',
+      message: '¡Algo extraño está sucediendo!'
     }
   },
   common: {
@@ -100,7 +110,10 @@ export default {
     createAccount: 'No hay una cuenta?',
     twoFactorAuthTokenPlaceholder: '2FA (deje en blanco si ha habilitado)',
     signIn: 'Entrar',
-    signUp: 'Registro'
+    signUp: 'Registro',
+    verified: '¡Cuenta comprobada!',
+    lostPassword: 'Ha perdido su contraseña?',
+    resetPasswordRequest: 'Restablecer su contraseña'
   },
   menu: {
     dashboard: 'Dashboard',
@@ -198,5 +211,11 @@ export default {
     signUp: 'Regístrate',
     signIn: 'Entrar',
     alreayHaveAccount: '¿Ya tienes una cuenta?'
+  },
+  passwordReset: {
+    title: 'Restablecer su contraseña',
+    passwordPlaceholder: 'Nueva contraseña',
+    newPassword: 'Restablecer la contraseña',
+    emailPlaceholder: 'Email'
   }
 }

@@ -3,7 +3,8 @@
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="signin-box">
       <h2 class="slim-logo slim-logo text-center"><img src="/static/img/logo-nbr.png" style="width: 100px" /></h2>
-      <h3 class="signin-title-secondary">{{ $t("login.hello") }}</h3>
+      <h3 class="signin-title-secondary" v-if="!view.isVerification">{{ $t("login.hello") }}</h3>
+      <h3 class="signin-title-secondary" v-if="view.isVerification">{{$t('login.verified')}}</h3>
       <div class="form-group">
         <input type="email" class="form-control" @keyup.enter="login()" :placeholder="$t('login.emailPlaceholder')" v-model="user.email">
       </div>
@@ -23,6 +24,7 @@
       </div>
       <button class="btn btn-primary btn-block btn-signin" @click="login">{{ $t("login.signIn") }}</button>
       <p class="mg-b-0">{{ $t("login.createAccount") }} <router-link to="/signup">{{ $t("login.signUp") }}</router-link></p>
+      <p class="mg-b-0">{{ $t("login.lostPassword") }} <router-link to="/users/password-reset-request">{{ $t("login.resetPasswordRequest") }}</router-link></p>
     </div>
   </div>
 </template>
@@ -50,7 +52,9 @@ export default {
       view: {
         isLogging: false,
         isLogOut: this.$route.path === '/logout',
-        isRECaptchaValid: false
+        isRECaptchaValid: false,
+        isVerification: this.$route.path.includes('/users') &&
+                        this.$route.path.includes('/confirmation')
       }
     }
   },
@@ -72,11 +76,20 @@ export default {
       const controller = ControllerFactory.getController('user', this)
       controller.logout()
     }
+
+    if (this.view.isVerification) {
+      this.confirmUser()
+    }
   },
 
   methods: {
     onVerify: function (response) {
       this.isRECaptchaValid = response.length > 0
+    },
+
+    confirmUser () {
+      const controller = ControllerFactory.getController('user', this)
+      controller.confirmUser(this.$route.params.id, this.$route.params.confirmationKey)
     },
 
     login () {
