@@ -80,11 +80,11 @@ class UserController {
     })
   }
 
-  login (email, password) {
+  login (email, password, twoFactorAuthToken) {
     const self = this
 
     return new Promise((resolve, reject) => {
-      this.resourceHelper.post('/api/v1/users/auth', {email, password})
+      this.resourceHelper.post('/api/v1/users/auth', {email, password, twoFactorAuthToken})
         .then(user => {
           localStorage.setItem('currentUserToken', user.token)
 
@@ -151,6 +151,24 @@ class UserController {
 
   getCurrentToken () {
     return localStorage.getItem('currentUserToken')
+  }
+
+  get2FAToken () {
+    return new Promise((resolve, reject) => {
+      this.resourceHelper.get(`/api/v1/users/me/2fa-token`)
+        .then(resolve)
+        .catch(reject)
+    })
+  }
+
+  configure2FAToken (action, twoFactorAuthToken) {
+    return new Promise((resolve, reject) => {
+      this.resourceHelper.post(`/api/v1/users/me/2fa-token`, {twoFactorAuthToken, action})
+        .then(resolve)
+        .catch(e => {
+          reject(e.body)
+        })
+    })
   }
 }
 

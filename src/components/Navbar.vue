@@ -21,10 +21,10 @@
           </router-link>
         </li>
         <li :class="['nav-item', {active: isSettings}]">
-          <a class="nav-link" href="#" data-toggle="dropdown">
+          <router-link to="/settings" class="nav-link">
             <i class="icon ion-ios-gear-outline"></i>
             <span>{{$t('menu.settings')}}</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>

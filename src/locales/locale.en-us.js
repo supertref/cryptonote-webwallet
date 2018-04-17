@@ -97,6 +97,7 @@ export default {
     emailPlaceholder: 'Enter your email',
     passwordPlaceholder: 'Enter your password',
     createAccount: 'Don\'t have an account?',
+    twoFactorAuthTokenPlaceholder: '2FA (leave blank if you don\'t enabled it)',
     signIn: 'Sign In',
     signUp: 'Sign Up'
   },
@@ -166,5 +167,35 @@ export default {
     save: 'Save',
     cancel: 'Cancel',
     defaultLanguage: 'Language'
+  },
+  settings: {
+    title: 'Settings',
+    twoFactorAuth: {
+      title: '2FA',
+      info: 'Use two-factor authentication to increase security in your account access!',
+      activate2FA: 'Enable 2FA',
+      disable2FA: 'Disable 2FA',
+      invalid2FAToken: 'The token is invalid',
+      enabled: 'The 2FA has been enabled successfully!',
+      disabled: 'The 2FA has been disabled successfully!',
+      modal: {
+        title: '2FA',
+        info: 'Type the numbers shown in your app',
+        placeholder: '',
+        enable: 'Enable 2FA',
+        close: 'Close',
+        disable: 'Disable 2FA'
+      }
+    }
+  },
+  signUp: {
+    title: 'Get Started!',
+    message: 'It\'s free to signup and only takes a minute.',
+    namePlaceholder: 'Name',
+    emailPlaceholder: 'Email',
+    passwordPlaceholder: 'Password',
+    signUp: 'Sign Up',
+    signIn: 'Sign In',
+    alreayHaveAccount: 'Already have an account?'
   }
 }

@@ -10,6 +10,9 @@
       <div class="form-group">
         <input type="password" class="form-control" @keyup.enter="login()" :placeholder="$t('login.passwordPlaceholder')" v-model="user.password">
       </div>
+      <div class="form-group">
+        <input type="text" class="form-control" @keyup.enter="login()" :placeholder="$t('login.twoFactorAuthTokenPlaceholder')" v-model="user.twoFactorAuthToken">
+      </div>
       <div class="mg-b-50">
         <vue-recaptcha
           ref="recaptcha"
@@ -41,7 +44,8 @@ export default {
       validateFields: false,
       user: {
         email: '',
-        password: ''
+        password: '',
+        twoFactorAuthToken: ''
       },
       view: {
         isLogging: false,
@@ -87,7 +91,7 @@ export default {
         messageBox.showWarning(this.$t('messages.reCAPTCHA.title'), this.$t('messages.reCAPTCHA.message'))
       } else {
         self.view.isLogging = true
-        controller.login(this.user.email, this.user.password)
+        controller.login(this.user.email, this.user.password, this.user.twoFactorAuthToken)
           .then(() => {
             self.view.isLogging = false
             self.$router.push('/')

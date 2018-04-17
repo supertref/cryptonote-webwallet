@@ -26,7 +26,7 @@
           </table>
         </div>
       </div>
-    </div><!-- modal-dialog -->
+    </div>
   </div>
 </template>
 

@@ -97,6 +97,7 @@ export default {
     emailPlaceholder: 'Informe seu e-mail',
     passwordPlaceholder: 'Informe sua senha',
     createAccount: 'Ainda não tem uma conta?',
+    twoFactorAuthTokenPlaceholder: '2FA (deixe em branco caso tenha habilitado)',
     signIn: 'Entrar',
     signUp: 'Cadastrar'
   },
@@ -166,5 +167,35 @@ export default {
     save: 'Salvar',
     cancel: 'Cancelar',
     defaultLanguage: 'Idioma'
+  },
+  settings: {
+    title: 'Configurações',
+    twoFactorAuth: {
+      title: 'Autenticação em dois fatores - 2FA',
+      info: 'Use a autenticação em dois fatores para aumentar a seguraça no acesso a sua conta!',
+      activate2FA: 'Habilitar 2FA',
+      disable2FA: 'Desabilitar 2FA',
+      invalid2FAToken: 'O token informado é inválido',
+      enabled: 'O 2FA foi habilitado com sucesso!',
+      disabled: 'O 2FA foi desabilitado com sucesso!',
+      modal: {
+        title: '2FA',
+        info: 'Digite os números exibidos no aplicativo',
+        placeholder: '',
+        enable: 'Habilitar 2FA',
+        close: 'Fechar',
+        disable: 'Desabilitar 2FA'
+      }
+    }
+  },
+  signUp: {
+    title: 'Crie sua conta!',
+    message: 'É gratuíto e leva um minuto.',
+    namePlaceholder: 'Nome',
+    emailPlaceholder: 'E-mail',
+    passwordPlaceholder: 'Senha',
+    signUp: 'Criar conta',
+    signIn: 'Entrar',
+    alreayHaveAccount: 'Já tem uma conta?'
   }
 }

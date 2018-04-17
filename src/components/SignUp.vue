@@ -3,14 +3,14 @@
     <simplert :useRadius="true" :useIcon="true" ref="simplert" />
     <div class="signin-box signup">
       <h2 class="slim-logo slim-logo text-center"><img src="/static/img/logo-nbr.png" style="width: 100px" /></h2>
-      <h3 class="signin-title-primary">Get Started!</h3>
-      <h5 class="signin-title-secondary lh-4">It's free to signup and only takes a minute.</h5>
+      <h3 class="signin-title-primary">{{$t('signUp.title')}}</h3>
+      <h5 class="signin-title-secondary lh-4">{{$t('signUp.message')}}</h5>
       <div class="row row-xs mg-b-10">
-        <div class="col-sm"><input type="text" class="form-control" v-model="user.name" placeholder="Name"></div>
+        <div class="col-sm"><input type="text" name="name" class="form-control" v-model="user.name" :placeholder="$t('signUp.namePlaceholder')"></div>
       </div>
       <div class="row row-xs mg-b-10">
-        <div class="col-sm"><input type="email" class="form-control" v-model="user.email" placeholder="Email"></div>
-        <div class="col-sm mg-t-10 mg-sm-t-0"><input type="password" v-model="user.password" class="form-control" placeholder="Password"></div>
+        <div class="col-sm"><input type="email" name="email" class="form-control" v-model="user.email" :placeholder="$t('signUp.emailPlaceholder')"></div>
+        <div class="col-sm mg-t-10 mg-sm-t-0"><input type="password" v-model="user.password" name="name" :placeholder="$t('signUp.passwordPlaceholder')" class="form-control"></div>
       </div>
       <div class="mg-b-50">
         <vue-recaptcha
@@ -20,8 +20,8 @@
           :sitekey="this.sitekey">
         </vue-recaptcha>
       </div>
-      <button class="btn btn-primary btn-block btn-signin" @click="createUser">Sign Up</button>
-      <p class="mg-t-40 mg-b-0">Already have an account? <router-link to="/login">Sign In</router-link></p>
+      <button class="btn btn-primary btn-block btn-signin" @click="createUser">{{$t('signUp.signUp')}}</button>
+      <p class="mg-t-40 mg-b-0">{{$t('signUp.alreayHaveAccount')}} <router-link to="/login">{{$t('signUp.signIn')}}</router-link></p>
     </div>
   </div>
 </template>

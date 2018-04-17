@@ -97,6 +97,7 @@ export default {
     emailPlaceholder: 'Ingrese su e-mail',
     passwordPlaceholder: 'Ingrese su contraseña',
     createAccount: 'No hay una cuenta?',
+    twoFactorAuthTokenPlaceholder: '2FA (deje en blanco si ha habilitado)',
     signIn: 'Entrar',
     signUp: 'Registro'
   },
@@ -166,5 +167,35 @@ export default {
     save: 'Guardar',
     cancel: 'Cancelar',
     defaultLanguage: 'Idioma'
+  },
+  settings: {
+    title: 'Configuraciones',
+    twoFactorAuth: {
+      title: 'Autenticación en dos factores - 2FA',
+      info: '¡Utilice la autenticación de dos factores para aumentar la seguridad en el acceso a su cuenta!',
+      activate2FA: 'Habilitar 2FA',
+      disable2FA: 'Deshabilitar 2FA',
+      invalid2FAToken: 'El token no es válido',
+      enabled: '¡El 2FA se ha habilitado con éxito!',
+      disabled: '¡El 2FA ha sido deshabilitado exitosamente!',
+      modal: {
+        title: '2FA',
+        info: 'Escriba los números que se muestran en su aplicación',
+        placeholder: '',
+        enable: 'Habilitar 2FA',
+        close: 'Cerca',
+        disable: 'Deshabilitar 2FA'
+      }
+    }
+  },
+  signUp: {
+    title: '¡Empezar!',
+    message: 'Es gratis registrarse y solo toma un minuto.',
+    namePlaceholder: 'Nombre',
+    emailPlaceholder: 'Email',
+    passwordPlaceholder: 'Ingrese su contraseña',
+    signUp: 'Regístrate',
+    signIn: 'Entrar',
+    alreayHaveAccount: '¿Ya tienes una cuenta?'
   }
 }
