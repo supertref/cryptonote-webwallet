@@ -90,7 +90,8 @@ export default {
     na: 'N/A',
     save: 'Guardar',
     cancel: 'Cancelar',
-    ok: 'Ok'
+    ok: 'Ok',
+    anonymous: 'Anónimo'
   },
   login: {
     hello: 'Ingrese sus credenciales',
