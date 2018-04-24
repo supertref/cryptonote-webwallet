@@ -40,7 +40,7 @@ export default {
       } else {
         controller.resetPassword(this.$route.params.id, this.$route.params.internalKey, this.password)
           .then(() => {
-            messageBox.showSuccess(this.$t('message.passwordReset.message'), () => {
+            messageBox.showSuccess(this.$t('messages.passwordReset.message'), () => {
               this.$router.push('/login')
             })
           })
