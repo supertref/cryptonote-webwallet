@@ -18,7 +18,6 @@
         <vue-recaptcha
           ref="recaptcha"
           @verify="onVerify"
-          @expired="onExpired"
           :sitekey="this.sitekey">
         </vue-recaptcha>
       </div>

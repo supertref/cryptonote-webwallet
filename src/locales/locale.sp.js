@@ -82,6 +82,10 @@ export default {
     userNotFound: {
       title: 'Usuário no encontrado!',
       message: '¡Algo extraño está sucediendo!'
+    },
+    maximumUsersExceeded: {
+      title: 'Lo siento :(',
+      message: '¡Se ha excedido la cantidad máxima de usuarios! Esta billetera es la versión alfa, por lo que estamos controlando la cantidad de usuarios.'
     }
   },
   common: {

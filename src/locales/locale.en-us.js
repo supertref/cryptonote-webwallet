@@ -82,6 +82,10 @@ export default {
     userNotFound: {
       title: 'User not found!',
       message: 'Something wrong is going on!'
+    },
+    maximumUsersExceeded: {
+      title: 'Sorry :(',
+      message: 'The maximum number of users has been exceeded! This wallet is the alpha version, so we are controlling the number of users.'
     }
   },
   common: {

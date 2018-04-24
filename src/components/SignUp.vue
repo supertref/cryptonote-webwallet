@@ -16,7 +16,6 @@
         <vue-recaptcha
           ref="recaptcha"
           @verify="onVerify"
-          @expired="onExpired"
           :sitekey="this.sitekey">
         </vue-recaptcha>
       </div>
@@ -92,9 +91,14 @@ export default {
           })
           .catch(error => {
             console.log(error)
+
             switch (error.status) {
               case 409:
-                messageBox.showError(this.$('messages.invalidEmail.title'), this.$('messages.invalidEmail.message'))
+                if (error.body.error === 'MAXIMUM_USERS_EXCEEDED') {
+                  messageBox.showError(this.$t('messages.maximumUsersExceeded.title'), this.$t('messages.maximumUsersExceeded.message'))
+                } else {
+                  messageBox.showError(this.$t('messages.invalidEmail.title'), this.$t('messages.invalidEmail.message'))
+                }
                 break
               default:
                 messageBox.showCriticalError()

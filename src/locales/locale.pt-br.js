@@ -82,6 +82,10 @@ export default {
     userNotFound: {
       title: 'Usuário não encontrado!',
       message: 'Algo estranho está acontecendo!'
+    },
+    maximumUsersExceeded: {
+      title: 'Que pena :(',
+      message: 'O número máximo de usuários foi excedido! Essa carteira é a versão alpha, por isso estamos controlando o número de usuários.'
     }
   },
   common: {
