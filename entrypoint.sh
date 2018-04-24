@@ -90,12 +90,12 @@ if ! bool "$MOUNTED"; then
      echo "" >> $DEFAULT_CONF
      echo "  location ~ /api/v1/conversions(.*)\$ {" >> $DEFAULT_CONF
      echo "    set \$backend $CCC_ADDRESS;" >> $DEFAULT_CONF
-     echo "    proxy_pass http://\$backend\$1;" >> $DEFAULT_CONF
+     echo "    proxy_pass http://\$backend/v1/conversions\$1;" >> $DEFAULT_CONF
      echo "    proxy_redirect off;" >> $DEFAULT_CONF
      echo "  }" >> $DEFAULT_CONF
      echo "  location ~ /api/v1/tickers(.*)\$ {" >> $DEFAULT_CONF
      echo "    set \$backend $CCC_ADDRESS;" >> $DEFAULT_CONF
-     echo "    proxy_pass http://\$backend\$1;" >> $DEFAULT_CONF
+     echo "    proxy_pass http://\$backend/v1/tickers\$1;" >> $DEFAULT_CONF
      echo "    proxy_redirect off;" >> $DEFAULT_CONF
      echo "  }" >> $DEFAULT_CONF
    fi
