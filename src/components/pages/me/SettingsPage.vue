@@ -15,19 +15,29 @@
               <div class="row no-gutters">
                 <div class="col-lg-6">
                   <img :src="token.dataUrl" />
+                  <div class="input-group">
+                    <input readonly="true" class="form-control" type="text" v-model="token.secret">
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <button @click="copyToken" class="btn btn-link" style="padding: 0px" title="Click here to generate a new Payment Id">
+                          <i class="fa fa-copy" />
+                        </button>
+                      </div>
+                    </div>
+                    {{$t('settings.twoFactorAuth.modal.secretInfo')}}
+                  </div>
                 </div>
                 <div class="col-lg-6">
                   <div>
                     <div class="form-group">
                       <p>{{$t('settings.twoFactorAuth.modal.info')}}</p>
-                      <input type="text" class="form-control pd-y-12" v-model="userToken" :placeholder="$t('settings.twoFactorAuth.modal.placeholder')">
+                      <input type="text" class="form-control pd-y-12" v-model="userToken" :placeholder="$t('settings.twoFactorAuth.modal.placeholder')" />
                     </div>
                     <p v-if="this.view.validationStatus === 1" class="tx-success">{{$t('settings.twoFactorAuth.enabled')}}</p>
                     <p v-if="this.view.validationStatus === -1" class="tx-danger">{{$t('settings.twoFactorAuth.invalid2FAToken')}}</p>
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="modal-footer">
               <button v-if="this.view.validationStatus !== 1" type="button" class="btn btn-primary" @click="configure2FAToken()">{{$t('settings.twoFactorAuth.modal.enable')}}</button>
@@ -122,6 +132,10 @@ export default {
   },
 
   methods: {
+    copyToken () {
+      this.$copyText(this.token.secret)
+    },
+
     resetValidationStatus () {
       this.view.validationStatus = 0
     },

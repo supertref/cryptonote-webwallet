@@ -112,7 +112,7 @@ export default {
     emailPlaceholder: 'Enter your email',
     passwordPlaceholder: 'Enter your password',
     createAccount: 'Don\'t have an account?',
-    twoFactorAuthTokenPlaceholder: '2FA (leave blank if you don\'t enabled it)',
+    twoFactorAuthTokenPlaceholder: '2FA (Leave blank if you didn\'t enable it)',
     signIn: 'Sign In',
     signUp: 'Sign Up',
     verified: 'Account verified!',
@@ -123,6 +123,7 @@ export default {
     dashboard: 'Dashboard',
     transactions: 'Transactions',
     contacts: 'Contacts',
+    send: 'Send',
     settings: 'Settings',
     profile: 'Profile',
     signOut: 'Sign Out',
@@ -157,7 +158,10 @@ export default {
     newPaymentIdTip: 'Click here to generate a new payment id',
     newTransactionInfo: 'Use this form to send money to another address.',
     send: 'Send',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    generatePaymentId: 'New',
+    plainText: 'Plain text',
+    hex: 'Hex'
   },
   contacts: {
     title: 'Contacts',
@@ -202,7 +206,8 @@ export default {
         placeholder: '',
         enable: 'Enable 2FA',
         close: 'Close',
-        disable: 'Disable 2FA'
+        disable: 'Disable 2FA',
+        secretInfo: 'You can copy this secret key and past in your favorite app.'
       }
     }
   },
@@ -212,9 +217,11 @@ export default {
     namePlaceholder: 'Name',
     emailPlaceholder: 'Email',
     passwordPlaceholder: 'Password',
+    passwordConfirmPlaceholder: 'Confirm Password',
     signUp: 'Sign Up',
     signIn: 'Sign In',
-    alreayHaveAccount: 'Already have an account?'
+    alreayHaveAccount: 'Already have an account?',
+    strengthMessages: 'Very Weak,Weak,Medium,Strong,Very Strong'
   },
   passwordReset: {
     title: 'Reset your password',

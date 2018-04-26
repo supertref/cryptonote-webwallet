@@ -10,7 +10,10 @@
       </div>
       <div class="row row-xs mg-b-10">
         <div class="col-sm"><input type="email" name="email" class="form-control" v-model="user.email" :placeholder="$t('signUp.emailPlaceholder')"></div>
-        <div class="col-sm mg-t-10 mg-sm-t-0"><input type="password" v-model="user.password" name="name" :placeholder="$t('signUp.passwordPlaceholder')" class="form-control"></div>
+      </div>
+      <div class="row row-xs mg-b-10">
+        <div class="col-sm"><vue-password v-model="user.password" :strengthMessages="$t('signUp.strengthMessages').split(',')" :placeholder="$t('signUp.passwordPlaceholder')" classes="form-control" /></div>
+        <div class="col-sm"><input type="password" v-model="user.passwordConfirm" name="password-confirm" :placeholder="$t('signUp.passwordConfirmPlaceholder')" class="form-control"></div>
       </div>
       <div class="mg-b-50">
         <vue-recaptcha
@@ -30,16 +33,18 @@ import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import VueRecaptcha from 'vue-recaptcha'
 import MessageBox from '@/lib/ui/MessageBox'
 import Config from '@/Config'
+import Util from '@/lib/Util'
+import VuePassword from 'vue-password'
 
 export default {
   components: {
-    VueRecaptcha
+    VueRecaptcha,
+    VuePassword
   },
 
   data: function () {
     return {
       sitekey: Config.reCAPTCHA.sitekey,
-      validateFields: false,
       user: {
         email: '',
         password: ''
@@ -51,14 +56,21 @@ export default {
   },
   computed: {
     isFormValid () {
-      return this.user.email &&
-        this.user.password
+      return this.isEmailValid &&
+        this.isPasswordValid &&
+        this.isPasswordConfirmValid
     },
     isEmailValid () {
-      return !(this.validateFields && !this.user.email)
+      return this.user.email && Util.validateEmail(this.user.email)
     },
     isPasswordValid () {
-      return !(this.validateFields && !this.user.password)
+      return this.user.password
+    },
+    isPasswordConfirmValid () {
+      return this.user.passwordConfirm
+    },
+    isPasswordOk () {
+      return this.user.password === this.user.passwordConfirm
     }
   },
 
@@ -82,6 +94,8 @@ export default {
 
       if (!this.isFormValid) {
         messageBox.showRequiredFieldsMessage()
+      } else if (!this.isPasswordOk) {
+        messageBox.showWarning(this.$t('messages.passwordsAreDifferent.title'), this.$t('messages.passwordsAreDifferent.message'))
       } else if (!this.isRECaptchaValid) {
         messageBox.showWarning(this.$t('messages.reCAPTCHA.title'), this.$t('messages.reCAPTCHA.message'))
       } else {
@@ -90,8 +104,6 @@ export default {
             self.$router.push('/')
           })
           .catch(error => {
-            console.log(error)
-
             switch (error.status) {
               case 409:
                 if (error.body.error === 'MAXIMUM_USERS_EXCEEDED') {
@@ -109,3 +121,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.VuePassword__Message {
+  text-transform: lowercase !important;
+}
+</style>

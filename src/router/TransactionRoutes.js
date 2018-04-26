@@ -8,6 +8,10 @@ const routes = [
     component: NewTransactionPage
   },
   {
+    path: '/transactions/new',
+    component: NewTransactionPage
+  },
+  {
     path: '/transactions/:id',
     component: TransactionPage,
     name: 'transaction'

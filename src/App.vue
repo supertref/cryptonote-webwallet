@@ -112,6 +112,10 @@ export default {
     EventBus.$on('new-user', user => {
       self.user = user
       self.isLoggedOn = user != null
+
+      if (user && user.language) {
+        self.$i18n.locale = user.language
+      }
     })
 
     EventBus.$on('loading', isLoading => {

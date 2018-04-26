@@ -8,6 +8,12 @@
             <span>{{$t('menu.dashboard')}}</span>
           </router-link>
         </li>
+        <li :class="['nav-item', {active: isSend}]">
+          <router-link to="/transactions/new" class="nav-link">
+            <i class="icon ion ion-paper-airplane"></i>
+            <span>{{$t('menu.send')}}</span>
+          </router-link>
+        </li>
         <li :class="['nav-item', {active: isTransactions}]">
           <router-link to="/addresses/transactions" class="nav-link">
             <i class="icon ion-ios-filing-outline"></i>
@@ -41,10 +47,13 @@ export default {
              this.$route.path.startsWith('/dashboard')
     },
 
+    isSend () {
+      return this.$route.path.endsWith('/transactions/new')
+    },
+
     isTransactions () {
       return this.$route.path.startsWith('/addresses/transactions') ||
-             this.$route.path.startsWith('/transactions') ||
-             this.$route.path.endsWith('/transactions/new')
+             this.$route.path === '/transactions'
     },
 
     isContacts () {

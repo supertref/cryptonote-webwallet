@@ -64,7 +64,7 @@
           </p>
           <p class="invoice-info-row">
             <span>{{$t('common.hash')}}:</span>
-            <span>{{this.transaction.transactionHash}}</span>
+            <span><a target="_blank" :href="this.view.explorerHash.replace('@{hash}', this.transaction.transactionHash)">{{this.transaction.transactionHash}}</a></span>
           </p>
           <p class="invoice-info-row">
             <span>{{$t('common.amount')}}:</span>
@@ -125,7 +125,8 @@ export default {
       view: {
         id: this.$route.params.id,
         config: Config,
-        to: userController.getCurrentUser().to || Config.defaultCurrency
+        to: userController.getCurrentUser().to || Config.defaultCurrency,
+        explorerHash: Config.explorerHash
       },
       transaction: {
         from: 'Anonymous',

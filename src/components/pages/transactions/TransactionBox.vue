@@ -2,7 +2,6 @@
   <div class="section-wrapper">
     <simplert :useIcon="true" ref="simplert" />
     <contacts-list-modal id="modal" @selected="contactSelected" />
-
     <div class="row">
       <div class="col-lg-8">
         <label class="section-title">{{$t('transactions.title')}}</label>
@@ -10,17 +9,15 @@
       </div>
       <div class="col-lg-4">
         <div class="">
-
         </div>
       </div>
     </div>
-
     <div class="form-layout">
       <div class="row mg-b-25">
         <div class="col-lg-8">
           <div class="form-group">
             <label class="form-control-label">{{$t('common.from')}}: <span class="tx-danger">*</span></label>
-            <input class="form-control" type="text" readonly name="from" v-model="transaction.from">
+            <addresses-list :hideAllAddressOption="true" :useShortAddress="true" :addresses="this.addresses" @changed="changeAddress" :selectedAddress="this.transaction.from" />
           </div>
         </div>
         <div class="col-lg-4">
@@ -64,16 +61,24 @@
           <div class="form-group mg-b-10-force">
             <label class="form-control-label">{{$t('common.paymentId')}}:</label>
             <div class="input-group">
-              <input maxlength="32" class="form-control" type="text" name="paymentId" v-model="transaction.extra.fakePaymentId" :placeholder="$t('transactions.paymentIdPlaceholder')">
+              <input :maxlength="this.view.paymentIdType === 1 ? 32:64" class="form-control" type="text" name="paymentId" v-model="transaction.extra.paymentId" :placeholder="$t('transactions.paymentIdPlaceholder')">
               <div class="input-group-append">
                 <div class="input-group-text">
-                  <button @click="newPaymentID()" class="btn btn-link" style="padding: 0px" :placeholder="$t('transactions.newPaymentIdTip')">
-                    <i class="fa fa-plus-circle" />
-                  </button>
+                  <div class="dropdown">
+                    <button type="button" style="padding: 0px" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="javascript:void(0)" @click="setPaymentIdType(1)">{{$t('transactions.plainText')}} <i v-if="this.view.paymentIdType === 1" class="fa fa-check-circle"/></a>
+                      <a class="dropdown-item" href="javascript:void(0)" @click="setPaymentIdType(2)">{{$t('transactions.hex')}} <i v-if="this.view.paymentIdType === 2" class="fa fa-check-circle"/></a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="javascript:void(0)" @click="newPaymentID()">{{$t('transactions.generatePaymentId')}}</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <small class="form-text text-muted">{{this.transaction.extra.paymentId}}</small>
+            <small class="form-text text-muted" v-if="this.view.paymentIdType === 2">{{this.paymentIdPlainText}}</small>
+            <small class="form-text text-muted" v-if="this.view.paymentIdType === 1">{{this.paymentIdHex}}</small>
           </div>
         </div>
         <div class="col-lg-4">
@@ -112,7 +117,6 @@
           </div>
         </div>
       </div>
-
       <div class="form-layout-footer">
         <button @click="sendTransaction" class="btn btn-primary bd-0">{{$t('transactions.send')}}</button>
         <router-link :to="'/dashboard/addresses/' + this.$route.params.address" class="btn btn-secondary bd-0">{{$t('common.cancel')}}</router-link>
@@ -128,17 +132,20 @@ import MessageBox from '@/lib/ui/MessageBox'
 import Amount from '@/components/common/ui/Amount'
 import Config from '@/Config'
 import ContactsListModal from '@/components/pages/contacts/ContactsListModal'
+import AddressesList from '@/components/pages/home/AddressesList'
 
 export default {
   components: {
     Amount,
-    ContactsListModal
+    ContactsListModal,
+    AddressesList
   },
 
   data () {
     return {
       view: {
-        config: Config
+        config: Config,
+        paymentIdType: 1
       },
       transaction: {
         from: this.$route.params.address,
@@ -149,11 +156,12 @@ export default {
           fakeAmount: 0
         },
         extra: {
-          anonymity: 3,
+          anonymity: 1,
           fakePaymentId: '',
           paymentId: ''
         }
       },
+      addresses: [],
       address: {
         balance: {
           available: 0,
@@ -165,28 +173,51 @@ export default {
 
   computed: {
     paymentIdHex () {
-      if (this.transaction.extra.fakePaymentId) {
-        let bufStr = Buffer.from(this.transaction.extra.fakePaymentId.padEnd(32, ' '), 'utf8')
-        return bufStr.toString('hex')
+      if (this.transaction.extra.paymentId) {
+        return Buffer.from(this.transaction.extra.paymentId.substring(0, 32).padEnd(32, ' '), 'utf8').toString('hex')
+      } else {
+        return ''
+      }
+    },
+
+    paymentIdPlainText () {
+      if (this.transaction.extra.paymentId) {
+        return Buffer.from(this.transaction.extra.paymentId, 'hex').toString()
       } else {
         return ''
       }
     }
   },
 
-  watch: {
-    paymentIdHex (val) {
-      this.transaction.extra.paymentId = val
-    }
-  },
-
   mounted () {
-    this.loadAddress()
+    this.loadAddressInfo()
+    this.loadAddresses()
   },
 
   methods: {
+    setPaymentIdType (type) {
+      this.transaction.extra.paymentId = ''
+      this.view.paymentIdType = type
+    },
+
     newPaymentID () {
-      this.transaction.extra.fakePaymentId = uuidv1().toString().replace(/-/g, '')
+      const paymentId = uuidv1().toString().replace(/-/g, '')
+
+      if (this.view.paymentIdType === 1) {
+        this.transaction.extra.paymentId = paymentId
+      } else {
+        this.transaction.extra.paymentId = Buffer.from(paymentId, 'utf8').toString('hex')
+      }
+    },
+
+    changeAddress (item) {
+      if (item) {
+        this.transaction.from = item.address
+      } else {
+        this.transaction.from = null
+      }
+
+      this.loadAddressInfo()
     },
 
     sendTransaction () {
@@ -201,48 +232,64 @@ export default {
       newTransaction.changeAddress = this.transaction.from
       newTransaction.extra.anonymity = parseInt(this.transaction.extra.anonymity)
 
+      if (this.view.paymentIdType === 1) {
+        newTransaction.extra.paymentId = Buffer.from(this.transaction.extra.fakePaymentId.padEnd(32, ' '), 'utf8').toString('hex')
+      }
+
       delete newTransaction.fakeFee
       delete newTransaction.to.fakeAmount
       delete newTransaction.extra.fakePaymentId
 
-      transactionController.createTransaction(newTransaction)
-        .then(() => {
-          messageBox.showInfo(self.$t('messages.newTransaction.title'), 'The transaction has been sent successfully', () => {
-            self.$router.push('/dashboard/addresses/' + this.$route.params.address)
+      if (!newTransaction.from || !newTransaction.to.address) {
+        messageBox.showRequiredFieldsMessage()
+      } else {
+        transactionController.createTransaction(newTransaction)
+          .then(() => {
+            messageBox.showInfo(self.$t('messages.newTransaction.title'), 'The transaction has been sent successfully', () => {
+              self.$router.push('/dashboard/addresses/' + this.$route.params.address)
+            })
           })
-        })
-        .catch(error => {
-          switch (error.error) {
-            case 'ERROR_TRANSACTION_BAD_ADDRESS':
-              messageBox.showError(self.$t('messages.badAddress.title'), self.$t('messages.badAddress.message'))
-              break
-            case 'ERROR_TRANSACTION_WRONG_AMOUNT':
-              messageBox.showError(self.$t('messages.wrongAmount.title'), self.$t('messages.wrongAmount.message'))
-              break
-            case 'ERROR_TRANSACTION_SMALL_FEE':
-              messageBox.showError(self.$t('messages.smallFee.title'), self.$t('messages.smallFee.message', {minimumFee: Config.minimumFee / Config.defaultUnit}))
-              break
-            default:
-              switch (error.status) {
-                case 422:
-                  messageBox.showError(self.$t('messages.invalidTransaction.title'), self.$t('messages.invalidTransaction.message'))
-                  break
-                default:
-                  messageBox.showCriticalError()
-                  break
-              }
-              break
-          }
+          .catch(error => {
+            switch (error.error) {
+              case 'ERROR_TRANSACTION_BAD_ADDRESS':
+                messageBox.showError(self.$t('messages.badAddress.title'), self.$t('messages.badAddress.message'))
+                break
+              case 'ERROR_TRANSACTION_WRONG_AMOUNT':
+                messageBox.showError(self.$t('messages.wrongAmount.title'), self.$t('messages.wrongAmount.message'))
+                break
+              case 'ERROR_TRANSACTION_SMALL_FEE':
+                messageBox.showError(self.$t('messages.smallFee.title'), self.$t('messages.smallFee.message', {minimumFee: Config.minimumFee / Config.defaultUnit}))
+                break
+              default:
+                switch (error.status) {
+                  case 422:
+                    messageBox.showError(self.$t('messages.invalidTransaction.title'), self.$t('messages.invalidTransaction.message'))
+                    break
+                  default:
+                    messageBox.showCriticalError()
+                    break
+                }
+                break
+            }
+          })
+      }
+    },
+
+    loadAddresses () {
+      const addressController = ControllerFactory.getController('address', this)
+
+      addressController.getAddresses(true)
+        .then(addresses => {
+          this.addresses = addresses
         })
     },
 
-    loadAddress () {
+    loadAddressInfo () {
       const addressController = ControllerFactory.getController('address', this)
-      const self = this
 
       addressController.getBalance(this.transaction.from)
         .then(balance => {
-          self.address.balance = balance
+          this.address.balance = balance
         })
     },
 

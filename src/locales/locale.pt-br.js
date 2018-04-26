@@ -123,6 +123,7 @@ export default {
     dashboard: 'Dashboard',
     transactions: 'Transações',
     contacts: 'Contatos',
+    send: 'Enviar',
     settings: 'Configurações',
     profile: 'Perfil',
     signOut: 'Sair',
@@ -157,7 +158,10 @@ export default {
     newPaymentIdTip: 'Clique aqui para gerar um novo ID de pagamento',
     newTransactionInfo: 'Use esse formulário para enviar dinheiro para um endereço.',
     send: 'Enviar',
-    cancel: 'Cancelar'
+    cancel: 'Cancelar',
+    generatePaymentId: 'Novo',
+    plainText: 'Texto simples',
+    hex: 'Hexadecimal'
   },
   contacts: {
     title: 'Contatos',
@@ -202,7 +206,8 @@ export default {
         placeholder: '',
         enable: 'Habilitar 2FA',
         close: 'Fechar',
-        disable: 'Desabilitar 2FA'
+        disable: 'Desabilitar 2FA',
+        secretInfo: 'Você pode copiar essa chave e colar no seu app favorito.'
       }
     }
   },
@@ -212,9 +217,11 @@ export default {
     namePlaceholder: 'Nome',
     emailPlaceholder: 'E-mail',
     passwordPlaceholder: 'Senha',
+    passwordConfirmPlaceholder: 'Confirmação de senha',
     signUp: 'Criar conta',
     signIn: 'Entrar',
-    alreayHaveAccount: 'Já tem uma conta?'
+    alreayHaveAccount: 'Já tem uma conta?',
+    strengthMessages: 'Muito fraco,Fraco,Médio,Forte,Muito forte'
   },
   passwordReset: {
     title: 'Reconfigurar senha',

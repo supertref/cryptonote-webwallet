@@ -1,33 +1,37 @@
 <template>
   <page :title="$t('dashboard.title')">
-    <div class="card card-dash-one mg-t-20" v-if="this.view.isLoaded">
+    <div class="card card-dash-one mg-t-20">
       <div class="row no-gutters">
         <div class="col-lg-3">
           <i class="icon ion-shuffle"></i>
           <div class="dash-content">
             <label class="tx-primary">{{$t('dashboard.balance')}}</label>
-            <h2 ><amount :value="this.view.dashboard.balance.total" /></h2>
+            <h2 v-if="this.view.isLoaded"><amount :value="this.view.dashboard.balance.total" /></h2>
+            <h2 v-if="!this.view.isLoaded"><i class="fa fa-spinner fa-spin " /></h2>
           </div>
         </div>
         <div class="col-lg-3">
           <i class="icon fa fa-lock"></i>
           <div class="dash-content">
             <label class="tx-danger">{{$t('dashboard.locked')}}</label>
-            <h2><amount :value="this.view.dashboard.balance.locked" /></h2>
+            <h2 v-if="this.view.isLoaded"><amount :value="this.view.dashboard.balance.locked" /></h2>
+            <h2 v-if="!this.view.isLoaded"><i class="fa fa-spinner fa-spin " /></h2>
           </div>
         </div>
         <div class="col-lg-3">
           <i class="icon fa fa-money"></i>
           <div class="dash-content">
             <label class="tx-success">{{$t('dashboard.value')}} ({{this.view.to}})</label>
-            <h2><convert-coin :to="this.view.to" :amount="this.view.dashboard.balance.total" /></h2>
+            <h2 v-if="this.view.isLoaded"><convert-coin :to="this.view.to" :amount="this.view.dashboard.balance.total" /></h2>
+            <h2 v-if="!this.view.isLoaded"><i class="fa fa-spinner fa-spin " /></h2>
           </div>
         </div>
         <div class="col-lg-3">
           <i class="icon ion-social-bitcoin"></i>
           <div class="dash-content">
             <label class="tx-purple">{{$t('dashboard.value')}} (BTC)</label>
-            <h2><convert-coin to="BTC" :amount="this.view.dashboard.balance.total" /></h2>
+            <h2 v-if="this.view.isLoaded"><convert-coin to="BTC" :amount="this.view.dashboard.balance.total" /></h2>
+            <h2 v-if="!this.view.isLoaded"><i class="fa fa-spinner fa-spin " /></h2>
           </div>
         </div>
       </div>
@@ -126,7 +130,13 @@ export default {
     changeAddress (address) {
       this.loadDashboard(address)
         .then(() => {
-          this.view.selectedAddress = address
+          if (address) {
+            this.view.selectedBalance = address.balance.available + address.balance.locked
+            this.view.selectedAddress = address.address
+          } else {
+            this.view.selectedBalance = null
+            this.view.selectedAddress = null
+          }
         })
     },
 
@@ -142,7 +152,7 @@ export default {
             return addressController.createAddress()
           })
           .then(r => {
-            return self.changeAddress(r.address)
+            return self.changeAddress(r)
           })
           .then(resolve)
           .catch(reject)
@@ -162,6 +172,7 @@ export default {
           })
           .then(r => {
             self.selectedAddress = ''
+            self.selectedBalance = null
             return self.changeAddress()
           })
           .then(resolve)
@@ -169,9 +180,10 @@ export default {
       })
     },
 
-    loadDashboard (address, supressLoading) {
+    loadDashboard (item, supressLoading) {
       const self = this
       const dashboardController = ControllerFactory.getController('dashboard', this)
+      const address = item ? item.address : null
 
       return new Promise((resolve, reject) => {
         const chain = Promise.resolve()

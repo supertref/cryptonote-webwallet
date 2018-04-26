@@ -121,12 +121,16 @@ export default {
   },
   menu: {
     dashboard: 'Dashboard',
+    send: 'Enviar',
     transactions: 'Transacciones',
     contacts: 'Contactos',
     settings: 'Ajustes',
     profile: 'Perfil',
     signOut: 'Salir',
-    notifications: 'Notificaciones'
+    notifications: 'Notificaciones',
+    generatePaymentId: 'Nuevo',
+    plainText: 'Texto simple',
+    hex: 'Hexadecimal'
   },
   dashboard: {
     title: 'Mi cartera',
@@ -202,7 +206,8 @@ export default {
         placeholder: '',
         enable: 'Habilitar 2FA',
         close: 'Cerca',
-        disable: 'Deshabilitar 2FA'
+        disable: 'Deshabilitar 2FA',
+        secretInfo: 'Puede copiar esta clave y pegar en su aplicación preferida.'
       }
     }
   },
@@ -212,9 +217,11 @@ export default {
     namePlaceholder: 'Nombre',
     emailPlaceholder: 'Email',
     passwordPlaceholder: 'Ingrese su contraseña',
+    passwordConfirmPlaceholder: 'Confirmación de la contraseña',
     signUp: 'Regístrate',
     signIn: 'Entrar',
-    alreayHaveAccount: '¿Ya tienes una cuenta?'
+    alreayHaveAccount: '¿Ya tienes una cuenta?',
+    strengthMessages: 'Muito fraco,Fraco,Médio,Forte,Muito forte'
   },
   passwordReset: {
     title: 'Restablecer su contraseña',
