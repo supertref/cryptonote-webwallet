@@ -1,6 +1,6 @@
 <template>
   <div class="media">
-    <i class="fa fa-send text-success"  style="font-size: 50px" />
+    <i class="fa fa-sign-in text-success"  style="font-size: 50px" />
     <div class="media-body">
       <p>{{$t('alerts.loginOk')}}</p>
       <span>{{alert.createdAt | moment-formatted}}</span>

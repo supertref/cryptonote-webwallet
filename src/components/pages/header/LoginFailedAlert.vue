@@ -1,6 +1,6 @@
 <template>
   <div class="media">
-    <i class="fa fa-send text-danger"  style="font-size: 50px" />
+    <i class="fa fa-sign-in text-danger"  style="font-size: 50px" />
     <div class="media-body">
       <p>{{$t('alerts.loginFailed')}}</p>
       <span>{{alert.createdAt | moment-formatted}}</span>
