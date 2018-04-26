@@ -5,6 +5,7 @@
 <script>
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import Config from '@/Config'
+import Util from '@/lib/Util'
 
 export default {
   props: ['amount', 'to', 'decimals'],
@@ -29,7 +30,7 @@ export default {
 
       tickerController.convert(Config.symbol, this.to, this.amount / Config.defaultUnit)
         .then(conversion => {
-          self.value = conversion.price
+          self.value = conversion.price.toFixed(Util.precision(conversion.price))
           self.view.converted = true
         })
     }

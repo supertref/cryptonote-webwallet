@@ -4,6 +4,7 @@
 
 <script>
 import Config from '@/Config'
+import Util from '@/lib/Util'
 
 export default {
   props: ['value', 'isFixed'],
@@ -13,10 +14,11 @@ export default {
       if (isNaN(this.value)) {
         return 'N/A'
       } else {
+        const v = (this.value / Config.defaultUnit)
         if (this.isFixed) {
-          return (this.value / Config.defaultUnit).toFixed(Config.decimals).toString()
+          return v.toFixed(Config.decimals).toString()
         } else {
-          return (this.value / Config.defaultUnit).toString()
+          return v.toFixed(Util.precision(v)).toString()
         }
       }
     }

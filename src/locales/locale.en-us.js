@@ -15,7 +15,7 @@ export default {
     },
     criticalError: {
       title: 'OMG!!!',
-      message: 'Something wrong with our servers is goind on! Try again later'
+      message: 'Something wrong with our servers is going on! Try again later'
     },
     removeAddress: {
       title: 'Removing address',

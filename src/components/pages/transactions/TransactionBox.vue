@@ -227,8 +227,8 @@ export default {
 
       const newTransaction = JSON.parse(JSON.stringify(this.transaction))
 
-      newTransaction.to.amount = this.transaction.to.fakeAmount * 100000000
-      newTransaction.fee = this.transaction.fakeFee * 100000000
+      newTransaction.to.amount = parseInt(this.transaction.to.fakeAmount * Config.defaultUnit)
+      newTransaction.fee = parseInt(this.transaction.fakeFee * Config.defaultUnit)
       newTransaction.changeAddress = this.transaction.from
       newTransaction.extra.anonymity = parseInt(this.transaction.extra.anonymity)
 
@@ -262,6 +262,7 @@ export default {
                 break
               default:
                 switch (error.status) {
+                  case 409:
                   case 422:
                     messageBox.showError(self.$t('messages.invalidTransaction.title'), self.$t('messages.invalidTransaction.message'))
                     break
@@ -296,9 +297,12 @@ export default {
     contactSelected (contact) {
       this.transaction.to.address = contact.address
       this.transaction.extra.anonymity = contact.extra.anonymity
-      this.transaction.extra.paymentId = contact.extra.paymentId
       this.transaction.to.fakeAmount = contact.amount
-      this.transaction.extra.fakePaymentId = Buffer.from(contact.extra.paymentId, 'hex').toString()
+
+      if (contact.extra.paymentId && !this.transaction.extra.paymentId) {
+        this.view.paymentIdType = 1
+        this.transaction.extra.paymentId = Buffer.from(contact.extra.paymentId, 'hex').toString()
+      }
     }
   }
 }
