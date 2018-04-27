@@ -104,7 +104,7 @@ if ! bool "$MOUNTED"; then
      echo "" >> $DEFAULT_CONF
      echo "  location ~ /api(.*)\$ {" >> $DEFAULT_CONF
      echo "    set \$backend $API_ADDRESS;" >> $DEFAULT_CONF
-     echo "    proxy_pass http://\$backend\$1;" >> $DEFAULT_CONF
+     echo "    proxy_pass http://\$backend\$1\$is_args\$args;" >> $DEFAULT_CONF
      echo "    proxy_redirect off;" >> $DEFAULT_CONF
      echo "  }" >> $DEFAULT_CONF
    fi
