@@ -157,7 +157,6 @@ export default {
         },
         extra: {
           anonymity: 1,
-          fakePaymentId: '',
           paymentId: ''
         }
       },
@@ -233,12 +232,11 @@ export default {
       newTransaction.extra.anonymity = parseInt(this.transaction.extra.anonymity)
 
       if (this.view.paymentIdType === 1) {
-        newTransaction.extra.paymentId = Buffer.from(this.transaction.extra.fakePaymentId.padEnd(32, ' '), 'utf8').toString('hex')
+        newTransaction.extra.paymentId = Buffer.from(this.transaction.extra.paymentId.padEnd(32, ' '), 'utf8').toString('hex')
       }
 
       delete newTransaction.fakeFee
       delete newTransaction.to.fakeAmount
-      delete newTransaction.extra.fakePaymentId
 
       if (!newTransaction.from || !newTransaction.to.address) {
         messageBox.showRequiredFieldsMessage()
