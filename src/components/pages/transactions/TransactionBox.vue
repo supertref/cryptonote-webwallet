@@ -246,7 +246,11 @@ export default {
         transactionController.createTransaction(newTransaction)
           .then(() => {
             messageBox.showInfo(self.$t('messages.newTransaction.title'), 'The transaction has been sent successfully', () => {
-              self.$router.push('/dashboard/addresses/' + this.$route.params.address)
+              if (this.$route.params.address) {
+                self.$router.push('/dashboard/addresses/' + this.$route.params.address)
+              } else {
+                self.$router.push('/')
+              }
             })
           })
           .catch(error => {
