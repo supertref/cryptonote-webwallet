@@ -30,7 +30,7 @@ export default {
 
       tickerController.convert(Config.symbol, this.to, this.amount / Config.defaultUnit)
         .then(conversion => {
-          self.value = conversion.price.toFixed(Util.precision(conversion.price))
+          self.value = conversion.price.toFixed(this.decimals || Util.precision(conversion.price))
           self.view.converted = true
         })
     }
