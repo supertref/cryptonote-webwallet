@@ -1,7 +1,7 @@
 {
-  "name": "cryptonote-webwallet",
+  "name": "eable-web",
   "version": "1.0.0",
-  "description": "This software is the front-end for Dambler",
+  "description": "This software is the fronend to the Eable project",
   "author": "",
   "main": ".eslintrc.js",
   "scripts": {
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gleissonassis/cryptonote-webwallet.git"
+    "url": "git+https://github.com/gleissonassis/eagle-web.git"
   },
   "keywords": [],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gleissonassis/cryptonote-webwallet/issues"
+    "url": "https://github.com/gleissonassis/eagle-web/issues"
   },
-  "homepage": "https://github.com/gleissonassis/cryptonote-webwallet#readme",
+  "homepage": "https://github.com/gleissonassis/eagle-web#readme",
   "dependencies": {
     "bootstrap": "^4.0.0-beta.3",
     "jquery": "^3.2.1",

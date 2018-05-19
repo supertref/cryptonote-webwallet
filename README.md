@@ -1,1 +1,1 @@
-# cryptonote-webwallet
+# eagle-web
