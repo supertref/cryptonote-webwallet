@@ -85,6 +85,7 @@ import ConvertCoin from '@/components/common/ui/ConvertCoin'
 import ControllerFactory from '@/lib/controllers/ControllerFactory'
 import MessageBox from '@/lib/ui/MessageBox'
 import Util from '@/lib/Util'
+import moment from 'moment'
 
 export default {
   components: {
@@ -136,6 +137,11 @@ export default {
           .then(user => {
             self.$cookie.set('locale', self.user.language, { expires: '1Y' })
             self.$i18n.locale = self.user.language
+            if (self.user.language === 'sp') {
+              moment.locale('es')
+            } else {
+              moment.locale(self.user.language)
+            }
             messageBox.showInfo(self.$t('messages.profileUpdated.title'), self.$t('messages.profileUpdated.title'))
           })
           .catch(e => {

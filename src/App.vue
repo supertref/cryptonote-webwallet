@@ -22,6 +22,7 @@ import SignUp from '@/components/SignUp'
 import EventBus from '@/lib/EventBus'
 import Thread from '@/lib/Thread'
 import Config from '@/Config'
+import moment from 'moment'
 
 export default {
   name: 'App',
@@ -97,6 +98,11 @@ export default {
     var self = this
 
     self.$i18n.locale = self.$cookie.get('locale') || Config.defaultLocale
+    if (self.$i18n.locale === 'sp') {
+      moment.locale('es')
+    } else {
+      moment.locale(self.$i18n.locale)
+    }
 
     this.thread = new Thread('checkUser', 5 * 60 * 1000, () => {
       self.checkUser()
@@ -115,6 +121,11 @@ export default {
 
       if (user && user.language) {
         self.$i18n.locale = user.language
+        if (user.language === 'sp') {
+          moment.locale('es')
+        } else {
+          moment.locale(user.language)
+        }
       }
     })
 
