@@ -125,7 +125,7 @@ export default {
       view: {
         id: this.$route.params.id,
         config: Config,
-        to: userController.getCurrentUser().to || Config.defaultCurrency,
+        to: userController.getCurrentUser().defaultCurrency || Config.defaultCurrency,
         explorerHash: Config.explorerHash
       },
       transaction: {
