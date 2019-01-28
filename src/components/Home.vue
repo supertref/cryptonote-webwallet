@@ -22,7 +22,7 @@
           <i class="icon fa fa-money"></i>
           <div class="dash-content">
             <label class="tx-success">{{$t('dashboard.value')}} ({{this.view.to}})</label>
-            <h2 v-if="this.view.isLoaded"><convert-coin :to="this.view.to" :amount="this.view.dashboard.balance.total" decimals="2" /></h2>
+            <h2 v-if="this.view.isLoaded"><convert-coin :to="this.view.to" :amount="this.view.dashboard.balance.total" decimals="8" /></h2>
             <h2 v-if="!this.view.isLoaded"><i class="fa fa-spinner fa-spin " /></h2>
           </div>
         </div>
