@@ -11,6 +11,7 @@ ADD entrypoint.sh /
 
 COPY dist /usr/share/nginx/html
 
+FROM alpine:3.8
 RUN apk add --update --no-cache openssl \
  && chmod +x /entrypoint.sh
 
