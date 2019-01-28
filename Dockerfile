@@ -1,4 +1,4 @@
-FROM nginx:15.8.1-alpine
+FROM nginx:1.15.8-alpine
 
 ARG VERSION=master
 ENV VERSION=${VERSION}
