@@ -1,4 +1,4 @@
-FROM nginx:1.13-alpine
+FROM nginx-alpine
 
 ARG VERSION=master
 ENV VERSION=${VERSION}
@@ -11,7 +11,6 @@ ADD entrypoint.sh /
 
 COPY dist /usr/share/nginx/html
 
-FROM alpine:3.8
 RUN apk add --update --no-cache openssl \
  && chmod +x /entrypoint.sh
 
