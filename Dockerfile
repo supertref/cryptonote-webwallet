@@ -14,6 +14,4 @@ COPY dist /usr/share/nginx/html
 RUN apk add --update --no-cache openssl \
  && chmod +x /entrypoint.sh
 
-WORKDIR /
-
 ENTRYPOINT ["/entrypoint.sh"]
