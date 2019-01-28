@@ -3,8 +3,8 @@ FROM nginx:1.13-alpine
 ARG VERSION=master
 ENV VERSION=${VERSION}
 
-LABEL maintainer="gleisson.assis@gmail.com"
-LABEL source="https://github.com/gleissonassis/cryptonote-webwallet.git"
+LABEL maintainer="supertref@gmail.com"
+LABEL source="https://github.com/supertref/cryptonote-webwallet.git"
 LABEL version="${VERSION}"
 
 ADD entrypoint.sh /
